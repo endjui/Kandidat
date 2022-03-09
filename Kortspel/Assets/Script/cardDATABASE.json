@@ -1,0 +1,19 @@
+{
+  "cardList": [
+    {
+      "name": "Test Creature",
+      "type": "creature",
+      "hp": 1,
+      "attack": 1,
+      "tribe": "First tribe",
+      "mana": 1,
+      "description": "This is a creature used for testing. It has no special abilities"
+    },
+    {
+      "name": "Test Spell",
+      "type": "spell",
+      "mana": 1,
+      "description": "This is a spell used for testing and showing what a JSON file with mutiple cards look like. It has no special abilities"
+    }
+  ]
+}

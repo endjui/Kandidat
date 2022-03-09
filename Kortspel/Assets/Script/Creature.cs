@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class Creature : MonoBehaviour
 
 {
+
     public int HP;
     public int Attack;
     public string Tribe;
@@ -22,24 +23,49 @@ public class Creature : MonoBehaviour
     public Text DescriptionTEXT;
     public Text ManaTEXT;
 
-    void Start() { }
+    //This is what calls on initialization
+    void Start() {
+        //We need to call getCard() here and save the information in our list
+        setCardInformation();
+        setCardVisuals();
+    }
 
+    //This is called every frame
     void Update() {
-        HP = 24;
-        Attack = 5;
+        //In here we need to apply damage and other things applied to the card.
+        //Example: If(Card == Attacked){ Set the new visuals, deleted card if dead etc.}
+        
+}
+
+
+    // Set card information, random for now.
+    void setCardInformation()
+    {
+        HP = Random.Range(0,  5);
+        Attack = Random.Range( 0, 5);
         Zone = 0;
         Tribe = "pog";
-        Name = "ADHD";
+        Name = "Death";
         Description = "me is a very stronk";
-        Mana = 5;
+        Mana = Attack = Random.Range( 0,  5);
+
+    }
+    //Set the visuals on the card to match the information.
+    void setCardVisuals()
+    {
 
         HPTEXT.text = "" + HP;
-        AttackTEXT.text = ""+ Attack;
+        AttackTEXT.text = "" + Attack;
         TribeTEXT.text = "" + Tribe;
         NameTEXT.text = "" + Name;
         DescriptionTEXT.text = "" + Description;
         ManaTEXT.text = "" + Mana;
+    }
 
-}
+    //Get the card information from the database
+    void getCard()
+    {
+      //Get information from the database about the specific card.
 
+        }
 }
