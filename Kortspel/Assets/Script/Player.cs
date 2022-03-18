@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 unsafe public class Player : MonoBehaviour
 {
@@ -16,13 +17,25 @@ unsafe public class Player : MonoBehaviour
     int maxMana = 10;
     string playerName;
 
+    //For player phases
+    public Text playerPhase;
+    public Text playerEndTurnButton_text;
+    public int playerTurnCounter;
+
+    // FOr player timer
+    // The text for the clock
+    public Text textTimer;
+
     //constructor that initilizes the variables.
-    public Player(int MANA, int HP, bool isACTIVE, string playerNAME)
+    public Player(int MANA, int HP, bool isACTIVE, string playerNAME, Text playerPHASE, Text playerBUTTON, Text playerTIMER)
     {
         Hp = HP;
         Mana = MANA;
         isActive = isACTIVE;
         playerName = playerNAME;
+        playerPhase = playerPHASE;
+        playerEndTurnButton_text = playerBUTTON;
+        textTimer = playerTIMER;
 
         for(int counter = 0; counter < maxCards; counter++)
         {
@@ -34,7 +47,6 @@ unsafe public class Player : MonoBehaviour
     //returns if the players is active or not
     public bool getIsActive()
     {
-
         return isActive;
     }
     //return maxCards
@@ -66,4 +78,23 @@ unsafe public class Player : MonoBehaviour
         return Mana;
     }
 
+    public void setPlayerPhase(String s)
+    {
+        playerPhase.text = s;
+    }
+
+    public Text getPlayerPhase()
+    {
+        return playerPhase;
+    }
+
+    public void setPlayerEndTurnButton_text(String s)
+    {
+        playerEndTurnButton_text.text = s;
+    }
+
+    public void setPlayerTurnCounter(int i)
+    {
+        playerTurnCounter = i;
+    }
 }
