@@ -5,9 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class Creature : MonoBehaviour
-
 {
-
     public int HP;
     public int Attack;
     public string Tribe;

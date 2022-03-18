@@ -36,20 +36,24 @@ public class SpawnCard : MonoBehaviour
 
     void TaskOnClick()
     {
-        
-        //This is really bad coding. It should be re-written but I will have it like this for now.
 
-        if(Game.activePlayers[0].getIsActive())
+        //This is really bad coding. It should be re-written but I will have it like this for now.
+        if (Game.activePlayers[0].getIsActive())
         {
-            spawnCard(matchCard("Test Creature"), Game.activePlayers[0], zonesP1);
+            // Check if it is Attack phase, if it is not, let the active player play a card
+            if (Game.activePlayers[0].getPlayerPhase().text != "Attack")
+            {
+                spawnCard(matchCard("Test Creature"), Game.activePlayers[0], zonesP1);
+            }
          }
         else if(Game.activePlayers[1].getIsActive())
         {
-            spawnCard(matchCard("Test Creature"), Game.activePlayers[1], zonesP2);
-
+            // Check if it is Attack phase, if it is not, let the active player play a card
+            if (Game.activePlayers[1].getPlayerPhase().text != "Attack")
+            {
+                spawnCard(matchCard("Test Creature"), Game.activePlayers[1], zonesP2);
+            }
         }
-
-
     }
 
 
