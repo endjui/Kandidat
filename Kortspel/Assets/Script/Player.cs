@@ -97,4 +97,9 @@ unsafe public class Player : MonoBehaviour
     {
         playerTurnCounter = i;
     }
+
+    public void setTimer(String s)
+    {
+        textTimer.text = s;
+    }
 }
