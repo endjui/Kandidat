@@ -43,7 +43,7 @@ public class SpawnCard : MonoBehaviour
             // Check if it is Attack phase, if it is not, let the active player play a card
             if (Game.activePlayers[0].getPlayerPhase().text != "Attack")
             {
-                spawnCard(matchCard("Test Creature"), Game.activePlayers[0], zonesP1);
+                spawnCard(matchCard("Vine Skeleton"), Game.activePlayers[0], zonesP1);
             }
          }
         else if(Game.activePlayers[1].getIsActive())
@@ -51,7 +51,7 @@ public class SpawnCard : MonoBehaviour
             // Check if it is Attack phase, if it is not, let the active player play a card
             if (Game.activePlayers[1].getPlayerPhase().text != "Attack")
             {
-                spawnCard(matchCard("Test Creature"), Game.activePlayers[1], zonesP2);
+                spawnCard(matchCard("Vine Slinger"), Game.activePlayers[1], zonesP2);
             }
         }
     }
@@ -74,7 +74,9 @@ public class SpawnCard : MonoBehaviour
                                      thisCard.getHp(),
                                      thisCard.getAttack(),
                                      thisCard.getTribe(),
-                                     thisCard.getDescription());
+                                     thisCard.getDescription(),
+                                     thisCard.getKeywords(),
+                                     thisCard.getUrl());
             }
         }
 

@@ -1,13 +1,37 @@
 {
   "cardList": [
     {
-      "name": "Test Creature",
+      "name": "Vine Skeleton",
+      "type": "creature",
+      "hp": 1,
+      "attack": 2,
+      "tribe": "Vine",
+      "mana": 2,
+      "description": "",
+      "keywords": "",
+      "url": "https://drive.google.com/uc?export=download&id=1YBJnwk_kGLlgzbyQPFpG8XeQpWv60mIX"
+    },
+    {
+      "name": "Vine Slinger",
+      "type": "creature",
+      "hp": 1,
+      "attack": 2,
+      "tribe": "Vine",
+      "mana": 2,
+      "description": "",
+      "keywords": "",
+      "url": "https://drive.google.com/uc?export=download&id=1_UNzql4eywKzfbvTvb4LY8FhH2Id2WYK"
+    },
+    {
+      "name": "Vine Sprout",
       "type": "creature",
       "hp": 1,
       "attack": 1,
-      "tribe": "First tribe",
+      "tribe": "Vine",
       "mana": 1,
-      "description": "This is a creature used for testing. It has no special abilities"
+      "description": "",
+      "keywords": "",
+      "url": "https://drive.google.com/uc?export=download&id=1UDDgag5E2_kHAkulod0y1_WENj9z_8rB"
     },
     {
       "name": "Test Spell",

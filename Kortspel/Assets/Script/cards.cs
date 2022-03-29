@@ -28,7 +28,13 @@ public class cards : MonoBehaviour
     [JsonProperty("description")]
     private string description;
 
-    public cards(string Name, string Type, int Mana, int Hp, int Attack, string Tribe, string Description)
+    [JsonProperty("keywords")]
+    private string keywords;
+
+    [JsonProperty("url")]
+    private string url;
+
+    public cards(string Name, string Type, int Mana, int Hp, int Attack, string Tribe, string Description, string Keywords, string Url)
     {
         name = Name;
         type = Type;
@@ -37,6 +43,8 @@ public class cards : MonoBehaviour
         attack = Attack;
         tribe = Tribe;
         description = Description;
+        keywords = Keywords;
+        url = Url;
     }
 
     public cards()
@@ -48,6 +56,8 @@ public class cards : MonoBehaviour
         attack = -1;
         tribe = "";
         description = "";
+        keywords = "";
+        url = "";
     }
 
     public string getName() { return name; }
@@ -57,8 +67,10 @@ public class cards : MonoBehaviour
     public int getAttack() { return attack; }
     public string getTribe() { return tribe; }
     public string getDescription() { return description; }
+    public string getKeywords() { return keywords; }
+    public string getUrl() { return url; }
 
-    public void setValues(string Name, string Type, int Mana, int Hp, int Attack, string Tribe, string Description)
+    public void setValues(string Name, string Type, int Mana, int Hp, int Attack, string Tribe, string Description, string Keywords, string Url)
     {
         name = Name;
         type = Type;
@@ -67,5 +79,7 @@ public class cards : MonoBehaviour
         attack = Attack;
         tribe = Tribe;
         description = Description;
+        keywords = Keywords;
+        url = Url;
     }
 }
