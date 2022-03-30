@@ -18,6 +18,8 @@ public class SpawnCard : MonoBehaviour
 
     public CardList cardsInJson;
 
+    public Eigenface scanner;
+
     // Start is called before the first frame update
     void Start()
     {

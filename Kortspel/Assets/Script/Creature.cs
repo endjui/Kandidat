@@ -22,18 +22,20 @@ public class Creature : MonoBehaviour
     public Text ManaTEXT;
 
     //This is what calls on initialization
-    void Start() {
+    void Start()
+    {
         //We need to call getCard() here and save the information in our list
         setCardInformation();
         setCardVisuals();
     }
 
     //This is called every frame
-    void Update() {
+    void Update()
+    {
         //In here we need to apply damage and other things applied to the card.
         //Example: If(Card == Attacked){ Set the new visuals, deleted card if dead etc.}
         
-}
+    }
 
 
     // Set card information, random for now.
@@ -65,5 +67,5 @@ public class Creature : MonoBehaviour
     {
       //Get information from the database about the specific card.
 
-        }
+    }
 }

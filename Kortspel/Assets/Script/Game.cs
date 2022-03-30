@@ -28,9 +28,13 @@ public class Game : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        Player player1 = new Player(0, 40, false, "player1", player1Phase, player1EndTurnButton_text, player1_textTimer);
+        Player player2 = new Player(0, 40, false, "player2", player2Phase, player2EndTurnButton_text, player2_textTimer);
+
         //Setting player0 to isActive = true for now, later we should coinflip this
-        activePlayers.Add(new Player(0,40,false,"player1", player1Phase,player1EndTurnButton_text,player1_textTimer));
-        activePlayers.Add(new Player(0, 40, false, "player2", player2Phase,player2EndTurnButton_text, player2_textTimer));
+        activePlayers.Add(player1);
+        activePlayers.Add(player2);
 
         //flip a coin on who should start
         if (coinflip() <= 0.5f)
