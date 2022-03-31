@@ -37,7 +37,9 @@
       "name": "Test Spell",
       "type": "spell",
       "mana": 1,
-      "description": "This is a spell used for testing and showing what a JSON file with mutiple cards look like. It has no special abilities"
+      "description": "This is a spell used for testing and showing what a JSON file with mutiple cards look like. It has no special abilities",
+      "keywords": "",
+      "url": "https://drive.google.com/uc?export=download&id=1UDDgag5E2_kHAkulod0y1_WENj9z_8rB" //This is just a placeholder link
     }
   ]
 }

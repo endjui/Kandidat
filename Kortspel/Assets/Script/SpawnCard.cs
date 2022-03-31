@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.Networking;
 using Newtonsoft.Json;
 
 public class SpawnCard : MonoBehaviour
@@ -17,8 +18,10 @@ public class SpawnCard : MonoBehaviour
     public TextAsset jsonFile;
 
     public CardList cardsInJson;
-
+    public WebCamTexture webCam;
+    public Texture2D[] images;
     public Eigenface scanner;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +30,46 @@ public class SpawnCard : MonoBehaviour
         btn.onClick.AddListener(TaskOnClick);
         cardsInJson = JsonConvert.DeserializeObject<CardList>(jsonFile.text);
 
+        // Get all camera devices and play the correct Camera
+        WebCamDevice[] devices = WebCamTexture.devices;
+        if (devices.Length > 1)
+        {
+            webCam = new WebCamTexture(devices[1].name);
+        }
+        else
+        {
+            webCam = new WebCamTexture(devices[0].name);
+        }
+
+        webCam.Play();
+
+        images = new Texture2D[cardsInJson.cardList.Length];
+        int i = 0;
+
+        IEnumerator DownloadImage(string MediaUrl, Texture2D[] imageArray)
+        {
+            Debug.Log(MediaUrl);
+            UnityWebRequest request = UnityWebRequestTexture.GetTexture(MediaUrl);
+            yield return request.SendWebRequest();
+            if (request.isNetworkError || request.isHttpError)
+                Debug.Log(request.error);
+            else
+            {
+                Debug.Log("i = " + i);
+                images[i] = ((DownloadHandlerTexture)request.downloadHandler).texture;
+                Debug.Log(((DownloadHandlerTexture)request.downloadHandler).texture);
+                i++;
+            }
+        }
+
+        foreach (cards card in cardsInJson.cardList)
+        {
+            StartCoroutine(DownloadImage(card.getUrl(),  images));
+        }
+
+        Debug.Log(images[0]);
+
+        scanner = new Eigenface(webCam, images);
     }
 
     // Update is called once per frame
@@ -38,6 +81,7 @@ public class SpawnCard : MonoBehaviour
 
     void TaskOnClick()
     {
+        string url = scanner.getId(webCam);
 
         //This is really bad coding. It should be re-written but I will have it like this for now.
         if (Game.activePlayers[0].getIsActive())
@@ -45,7 +89,7 @@ public class SpawnCard : MonoBehaviour
             // Check if it is Attack phase, if it is not, let the active player play a card
             if (Game.activePlayers[0].getPlayerPhase().text != "Attack")
             {
-                spawnCard(matchCard("Vine Skeleton"), Game.activePlayers[0], zonesP1);
+                spawnCard(matchCard(url), Game.activePlayers[0], zonesP1);
             }
          }
         else if(Game.activePlayers[1].getIsActive())
@@ -53,20 +97,20 @@ public class SpawnCard : MonoBehaviour
             // Check if it is Attack phase, if it is not, let the active player play a card
             if (Game.activePlayers[1].getPlayerPhase().text != "Attack")
             {
-                spawnCard(matchCard("Vine Slinger"), Game.activePlayers[1], zonesP2);
+                spawnCard(matchCard(url), Game.activePlayers[1], zonesP2);
             }
         }
     }
 
 
     //Matches card in database and returns the card in cards format
-    public cards matchCard(string cardName)
+    public cards matchCard(string cardUrl)
     {
         cards foundCard = new cards();
         Debug.Log("Trying to match card");
         foreach(cards thisCard in cardsInJson.cardList)
         {
-            if(thisCard.getName() == cardName)
+            if(thisCard.getUrl() == cardUrl)
             {
                 Debug.Log("Found creature: " + thisCard.getName() + "! " + thisCard.getDescription());
 
