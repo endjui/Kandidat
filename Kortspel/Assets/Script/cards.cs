@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
-[System.Serializable]
+using System;
 
-public class cards : MonoBehaviour
+
+public class Cards
 {
     //these variables are case sensitive and must match the strings in the JSON.
     [JsonProperty("name")]
@@ -28,13 +29,9 @@ public class cards : MonoBehaviour
     [JsonProperty("description")]
     private string description;
 
-    [JsonProperty("keywords")]
-    private string keywords;
+    private bool hasAttacked;
 
-    [JsonProperty("url")]
-    private string url;
-
-    public cards(string Name, string Type, int Mana, int Hp, int Attack, string Tribe, string Description, string Keywords, string Url)
+    public Cards(string Name, string Type, int Mana, int Hp, int Attack, string Tribe, string Description)
     {
         name = Name;
         type = Type;
@@ -43,11 +40,10 @@ public class cards : MonoBehaviour
         attack = Attack;
         tribe = Tribe;
         description = Description;
-        keywords = Keywords;
-        url = Url;
+        hasAttacked = false;
     }
 
-    public cards()
+    public Cards()
     {
         name = "";
         type = "";
@@ -56,8 +52,7 @@ public class cards : MonoBehaviour
         attack = -1;
         tribe = "";
         description = "";
-        keywords = "";
-        url = "";
+        hasAttacked = false;
     }
 
     public string getName() { return name; }
@@ -67,10 +62,9 @@ public class cards : MonoBehaviour
     public int getAttack() { return attack; }
     public string getTribe() { return tribe; }
     public string getDescription() { return description; }
-    public string getKeywords() { return keywords; }
-    public string getUrl() { return url; }
+    public bool getHasAttacked() { return hasAttacked; }
 
-    public void setValues(string Name, string Type, int Mana, int Hp, int Attack, string Tribe, string Description, string Keywords, string Url)
+    public void setValues(string Name, string Type, int Mana, int Hp, int Attack, string Tribe, string Description)
     {
         name = Name;
         type = Type;
@@ -79,7 +73,23 @@ public class cards : MonoBehaviour
         attack = Attack;
         tribe = Tribe;
         description = Description;
-        keywords = Keywords;
-        url = Url;
+    }
+
+    public void setAttack(int arg)
+    {
+        attack = arg;
+    }
+    public void setHp(int arg)
+    {
+        hp = arg;
+    }
+
+    public void setHasAttacked()
+    {
+        if (hasAttacked)
+        {
+            hasAttacked = false;
+        }
+        else hasAttacked = true;
     }
 }

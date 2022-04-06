@@ -90,7 +90,6 @@ GameObject:
   - component: {fileID: 5086445326392555661}
   - component: {fileID: 5086445326392555663}
   - component: {fileID: 5086445326392555660}
-  - component: {fileID: 5086445326392555659}
   m_Layer: 5
   m_Name: card
   m_TagString: Untagged
@@ -162,32 +161,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5086445326392555659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5086445326392555658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65198b615e6397d4bac457e80d010315, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thisCreature: []
-  HP: 0
-  Attack: 0
-  Tribe: 
-  Name: 
-  Description: 
-  Mana: 0
-  Zone: 0
-  HPTEXT: {fileID: 5086445327220750245}
-  AttackTEXT: {fileID: 5086445326980743182}
-  TribeTEXT: {fileID: 8553782933574767776}
-  NameTEXT: {fileID: 5086445326642706500}
-  DescriptionTEXT: {fileID: 5086445327268204831}
-  ManaTEXT: {fileID: 5086445325356278885}
 --- !u!1 &5086445326642706498
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,6 +642,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8553782934103924282}
+  - component: {fileID: 4353079107421553929}
   m_Layer: 0
   m_Name: Creature
   m_TagString: Untagged
@@ -691,6 +665,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4353079107421553929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8553782934103924281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65198b615e6397d4bac457e80d010315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 0
+  Attack: 0
+  Tribe: 
+  Name: 
+  Description: 
+  Mana: 0
+  Zone: 0
+  HPTEXT: {fileID: 5086445327220750245}
+  AttackTEXT: {fileID: 5086445326980743182}
+  TribeTEXT: {fileID: 8553782933574767776}
+  NameTEXT: {fileID: 5086445326642706500}
+  DescriptionTEXT: {fileID: 5086445327268204831}
+  ManaTEXT: {fileID: 5086445325356278885}
 --- !u!1 &8553782934130851163
 GameObject:
   m_ObjectHideFlags: 0

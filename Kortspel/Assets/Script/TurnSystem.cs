@@ -31,24 +31,35 @@ public class TurnSystem : MonoBehaviour
 
     }
 
-    void Player1_endButtonTask()
+    public void Player1_endButtonTask()
     {
         // If Player 1 is active, let them press the button and change phase, otherwise do nothing
         Debug.Log("Player 1 end button press.");
         if (Game.activePlayers[0].getIsActive())
         {
             Debug.Log("Player 1 active and end button pressed.");
+            if (Game.activePlayers[0].getPlayerPhase().text == "Attack")
+            {
+                Game.activePlayers[0].resetHasAttacked();
+                Game.activePlayers[0].setManaLimit(Game.activePlayers[0].getManaLimit() + 1);
+                Game.activePlayers[0].setAvailableMana(Game.activePlayers[0].getManaLimit());
+            }
             changeUI(Game.activePlayers[0], Game.activePlayers[1]);
         }
     }
 
-    void Player2_endButtonTask()
+    public void Player2_endButtonTask()
     {
         // If Player 2 is active, let them press the button and change phase, otherwise do nothing
         Debug.Log("Player 2 end button press.");
         if (Game.activePlayers[1].getIsActive())
         {
             Debug.Log("Player 2 active and end button pressed.");
+            if(Game.activePlayers[1].getPlayerPhase().text == "Attack"){
+                Game.activePlayers[1].resetHasAttacked();
+                Game.activePlayers[1].setManaLimit(Game.activePlayers[1].getManaLimit() + 1);
+                Game.activePlayers[1].setAvailableMana(Game.activePlayers[1].getManaLimit());
+            }
             changeUI(Game.activePlayers[1], Game.activePlayers[0]);
         }
     }
