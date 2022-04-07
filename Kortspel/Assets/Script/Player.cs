@@ -5,17 +5,19 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 
-unsafe public class Player : MonoBehaviour
+public class Player : MonoBehaviour
 {
     const int maxCards = 5;
-    public SortedList zonesAndCards = new SortedList();
-    //public List<cards> playersCards = new List<cards>(); 
+    //public SortedList<int, Cards> zonesAndCards = new SortedList<int, Cards>();
+    public List<GameObject> playerCards = new List<GameObject>(); 
     int Hp;
     bool isActive;
-    int Mana;
+    int manaLimit;
     int maxHP = 40;
     int maxMana = 10;
+    int availableMana = 0;
     string playerName;
+    public bool hasChanged = false;
 
     //For player phases
     public Text playerPhase;
@@ -30,24 +32,38 @@ unsafe public class Player : MonoBehaviour
     public Player(int MANA, int HP, bool isACTIVE, string playerNAME, Text playerPHASE, Text playerBUTTON, Text playerTIMER)
     {
         Hp = HP;
-        Mana = MANA;
+        manaLimit = MANA;
         isActive = isACTIVE;
         playerName = playerNAME;
         playerPhase = playerPHASE;
         playerEndTurnButton_text = playerBUTTON;
         textTimer = playerTIMER;
 
-        for(int counter = 0; counter < maxCards; counter++)
-        {
-            zonesAndCards.Add(counter, null);
+        GameObject dummyObject = null;
 
-        }
+
+
+         
+         for(int counter = 0; counter < maxCards; counter++)
+         {
+             
+             playerCards.Add(dummyObject);
+
+         }
+        
+
+
+    }
+
+    void Update()
+    {
+        
     }
 
     //returns if the players is active or not
     public bool getIsActive()
     {
-        return isActive;
+       return isActive;
     }
     //return maxCards
     public int getMaxCards() { return maxCards; }
@@ -61,6 +77,17 @@ unsafe public class Player : MonoBehaviour
 
     public void setHP(int y){
         Hp = y;
+        hasChanged = true;
+
+    }
+    public void setAvailableMana(int arg)
+    {
+        availableMana = arg;
+        hasChanged = true;
+    }
+    public int getAvailableMana()
+    {
+        return availableMana;
     }
 
     public int getHP()
@@ -68,14 +95,15 @@ unsafe public class Player : MonoBehaviour
         return Hp;
     }
 
-    public void setMana(int y)
+    public void setManaLimit(int y)
     {
-        Mana = y;
+        manaLimit = y;
+        hasChanged = true;
     }
 
-    public int getMana()
+    public int getManaLimit()
     {
-        return Mana;
+        return manaLimit;
     }
 
     public void setPlayerPhase(String s)
@@ -102,4 +130,38 @@ unsafe public class Player : MonoBehaviour
     {
         textTimer.text = s;
     }
+
+    public int getAvailableZone()
+    {
+        int slot = -1;
+        for (int i = 0; i < getMaxCards(); i++)
+        {
+            if (playerCards[i] == null)
+            {
+                Debug.Log("Found available slot " + i);
+                slot = i;
+                break;
+            }
+
+        }
+        return slot;
+    }
+    public void resetHasAttacked()
+    {
+        for(int i = 0; i < maxCards; i++)
+        {
+            if(playerCards[i] != null)
+            {
+                if(playerCards[i].GetComponent<Creature>().getHasAttacked())
+                {
+                     playerCards[i].GetComponent<Creature>().setHasAttacked();
+                }
+            }
+        }
+        Debug.Log("Reset all cards");
+    }
 }
+
+
+//attackfas -> target selection dyker upp för varje kort, selection visar zoner som är tomma eller ej för motståndaren, target & attackerande räknar ut damage och updaterar spelares HP
+//ta bort kort och updatera zoner och selection, ta bort selection för kort som attackerat

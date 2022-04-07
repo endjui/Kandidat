@@ -9,7 +9,7 @@
       "mana": 2,
       "description": "",
       "keywords": "",
-      "url": "https://drive.google.com/uc?export=download&id=1YBJnwk_kGLlgzbyQPFpG8XeQpWv60mIX"
+      "path": "https://drive.google.com/uc?export=download&id=1YBJnwk_kGLlgzbyQPFpG8XeQpWv60mIX"
     },
     {
       "name": "Vine Slinger",
@@ -20,7 +20,7 @@
       "mana": 2,
       "description": "",
       "keywords": "",
-      "url": "https://drive.google.com/uc?export=download&id=1_UNzql4eywKzfbvTvb4LY8FhH2Id2WYK"
+      "path": "https://drive.google.com/uc?export=download&id=1_UNzql4eywKzfbvTvb4LY8FhH2Id2WYK"
     },
     {
       "name": "Vine Sprout",
@@ -31,7 +31,18 @@
       "mana": 1,
       "description": "",
       "keywords": "",
-      "url": "https://drive.google.com/uc?export=download&id=1UDDgag5E2_kHAkulod0y1_WENj9z_8rB"
+      "path": "https://drive.google.com/uc?export=download&id=1UDDgag5E2_kHAkulod0y1_WENj9z_8rB"
+    },
+    {
+      "name": "Robin Stick",
+      "type": "creature",
+      "hp": 1,
+      "attack": 1,
+      "tribe": "Stick",
+      "mana": 1,
+      "description": "He a robin and a stick",
+      "keywords": "",
+      "path": "Assets/Resources/Images/robin_stick.png"
     },
     {
       "name": "Test Spell",

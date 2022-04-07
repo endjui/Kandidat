@@ -63,9 +63,35 @@ public class Game : MonoBehaviour
 
         }
 
+        if (activePlayers[0].hasChanged)
+        {
+            HPTEXTPlayer1.text = ("" + activePlayers[0].getHP());
+            ManaTEXTPlayer1.text = ("" + activePlayers[0].getAvailableMana() + " / " + activePlayers[0].getManaLimit());
+
+            if(activePlayers[0].getHP() <= 0)
+            {
+                Application.Quit();
+
+            }
+            activePlayers[0].hasChanged = false;
+        }
+
+        if (activePlayers[1].hasChanged)
+        {
+            HPTEXTPlayer2.text = ("" + activePlayers[1].getHP());
+            ManaTEXTPlayer2.text = ("" + activePlayers[1].getAvailableMana() + " / " + activePlayers[1].getManaLimit());
+
+            if (activePlayers[1].getHP() <= 0)
+            {
+                Application.Quit();
+
+            }
+            activePlayers[1].hasChanged = false;
+        }
+
     }
     //flips a coin on which players should start
-    float coinflip()
+    public float coinflip()
     {
         //will return a value from 0 - 1
         return Random.Range(0f, 1f);
