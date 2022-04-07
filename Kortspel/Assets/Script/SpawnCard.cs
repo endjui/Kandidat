@@ -16,10 +16,10 @@ public class SpawnCard : MonoBehaviour
     public static cards cardToSpawn = null;
 
     public TextAsset jsonFile;
-
     public CardList cardsInJson;
     public WebCamTexture webCam;
     public Texture2D[] images;
+    public Texture2D[][] images2D;
     public Eigenface scanner;
     
 
@@ -40,36 +40,17 @@ public class SpawnCard : MonoBehaviour
         {
             webCam = new WebCamTexture(devices[0].name);
         }
-
         webCam.Play();
 
-        images = new Texture2D[cardsInJson.cardList.Length];
-        int i = 0;
-
-        IEnumerator DownloadImage(string MediaUrl, Texture2D[] imageArray)
+        images2D = new Texture2D[cardsInJson.cardList.Length][];
+        for(int i = 0; i < cardsInJson.cardList.Length; i++)
         {
-            Debug.Log(MediaUrl);
-            UnityWebRequest request = UnityWebRequestTexture.GetTexture(MediaUrl);
-            yield return request.SendWebRequest();
-            if (request.isNetworkError || request.isHttpError)
-                Debug.Log(request.error);
-            else
-            {
-                Debug.Log("i = " + i);
-                images[i] = ((DownloadHandlerTexture)request.downloadHandler).texture;
-                Debug.Log(((DownloadHandlerTexture)request.downloadHandler).texture);
-                i++;
-            }
+            //images[i] = Resources.Load<Texture2D>(cardsInJson.cardList[i].getPath());
+            images2D[i] = Resources.LoadAll<Texture2D>(cardsInJson.cardList[i].getPath());
         }
 
-        foreach (cards card in cardsInJson.cardList)
-        {
-            StartCoroutine(DownloadImage(card.getUrl(),  images));
-        }
-
-        Debug.Log(images[0]);
-
-        scanner = new Eigenface(webCam, images);
+        //scanner = new Eigenface(webCam, images);
+        scanner = new Eigenface(webCam, images2D);
     }
 
     // Update is called once per frame
@@ -81,7 +62,8 @@ public class SpawnCard : MonoBehaviour
 
     void TaskOnClick()
     {
-        string url = scanner.getId(webCam);
+        Debug.Log("Trying to match card");
+        string path = scanner.matchImage(webCam, cardsInJson.cardList);
 
         //This is really bad coding. It should be re-written but I will have it like this for now.
         if (Game.activePlayers[0].getIsActive())
@@ -89,7 +71,7 @@ public class SpawnCard : MonoBehaviour
             // Check if it is Attack phase, if it is not, let the active player play a card
             if (Game.activePlayers[0].getPlayerPhase().text != "Attack")
             {
-                spawnCard(matchCard(url), Game.activePlayers[0], zonesP1);
+                spawnCard(matchCard(path), Game.activePlayers[0], zonesP1);
             }
          }
         else if(Game.activePlayers[1].getIsActive())
@@ -97,20 +79,20 @@ public class SpawnCard : MonoBehaviour
             // Check if it is Attack phase, if it is not, let the active player play a card
             if (Game.activePlayers[1].getPlayerPhase().text != "Attack")
             {
-                spawnCard(matchCard(url), Game.activePlayers[1], zonesP2);
+                spawnCard(matchCard(path), Game.activePlayers[1], zonesP2);
             }
         }
     }
 
 
     //Matches card in database and returns the card in cards format
-    public cards matchCard(string cardUrl)
+    public cards matchCard(string cardPath)
     {
         cards foundCard = new cards();
-        Debug.Log("Trying to match card");
+        
         foreach(cards thisCard in cardsInJson.cardList)
         {
-            if(thisCard.getUrl() == cardUrl)
+            if(thisCard.getPath() == cardPath)
             {
                 Debug.Log("Found creature: " + thisCard.getName() + "! " + thisCard.getDescription());
 
@@ -122,7 +104,7 @@ public class SpawnCard : MonoBehaviour
                                      thisCard.getTribe(),
                                      thisCard.getDescription(),
                                      thisCard.getKeywords(),
-                                     thisCard.getUrl());
+                                     thisCard.getPath());
             }
         }
 

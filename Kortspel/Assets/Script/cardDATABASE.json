@@ -9,7 +9,7 @@
       "mana": 2,
       "description": "",
       "keywords": "",
-      "url": "https://drive.google.com/uc?export=download&id=1YBJnwk_kGLlgzbyQPFpG8XeQpWv60mIX"
+      "path": "Images/VineSkeleton"
     },
     {
       "name": "Vine Slinger",
@@ -20,7 +20,7 @@
       "mana": 2,
       "description": "",
       "keywords": "",
-      "url": "https://drive.google.com/uc?export=download&id=1_UNzql4eywKzfbvTvb4LY8FhH2Id2WYK"
+      "path": "Images/VineSlinger"
     },
     {
       "name": "Vine Sprout",
@@ -31,15 +31,7 @@
       "mana": 1,
       "description": "",
       "keywords": "",
-      "url": "https://drive.google.com/uc?export=download&id=1UDDgag5E2_kHAkulod0y1_WENj9z_8rB"
-    },
-    {
-      "name": "Test Spell",
-      "type": "spell",
-      "mana": 1,
-      "description": "This is a spell used for testing and showing what a JSON file with mutiple cards look like. It has no special abilities",
-      "keywords": "",
-      "url": "https://drive.google.com/uc?export=download&id=1UDDgag5E2_kHAkulod0y1_WENj9z_8rB" //This is just a placeholder link
+      "path": "Images/VineSprout"
     }
   ]
 }
