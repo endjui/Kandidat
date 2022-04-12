@@ -56,6 +56,7 @@ unsafe public class Eigenface : MonoBehaviour
         {
             covariance[n] = Mat.Zeros(covarianceSize, MatType.CV_64F);
             averageImage = Mat.Zeros(size.Width,1, MatType.CV_64F);
+            // hejhopp gummisnopp
 
             for (int i = 0; i < numberOfTraining; ++i)
             {
