@@ -134,3 +134,4 @@ Received Import Request.
   path: Assets/Script/Eigenface.cs
   artifactKey: Guid(23947706b79991e4f9ad9d6bfaca107f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
 Start importing Assets/Script/Eigenface.cs using Guid(23947706b79991e4f9ad9d6bfaca107f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'be737ccc54ea41a5189a53c84282b451') in 0.093839 seconds 
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
