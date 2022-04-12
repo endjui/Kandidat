@@ -33,6 +33,9 @@ unsafe public class Eigenface : MonoBehaviour
         //gameObject1 = GameObject.Find("queryImage");
 
         size = new Size(images[0][0].width, images[0][0].height);
+        Size imageVectorSize = new Size(1, size.Width * size.Height);
+        Size sizu = new Size(numberOfTraining, numberOfTraining);
+        Size sizy = new Size(1, numberOfTraining * numberOfTraining);
         covarianceSize = new Size(size.Height, size.Height);
         numberOfCards = images.Length;
         numberOfTraining = images[0].Length;
@@ -43,26 +46,28 @@ unsafe public class Eigenface : MonoBehaviour
         **********************************************************/
 
         // Initialize all matricies used for calculations
+        PCA[] pCA = new PCA[numberOfCards];
         Mat averageImage;
-        Mat tmp;
-        Mat[] covariance = new Mat[numberOfCards];
-        Mat[] diffImage = new Mat[numberOfTraining];
+        Mat[] final = new Mat[numberOfCards];
+        Mat eigenValues = new Mat();
+        Mat eigenVectors = new Mat();
+        Mat[] A = new Mat[numberOfTraining];
         Mat[] reshapedImages = new Mat[numberOfTraining];
+        Mat[] L = new Mat[numberOfCards];
+        Mat[] eigenVectorsFinal = new Mat[numberOfCards];
         queryImage = new Mat[numberOfCards];
         currentImage = new Mat();
         temp = new Mat();
 
         for (int n = 0; n < numberOfCards; ++n)
         {
-            covariance[n] = Mat.Zeros(covarianceSize, MatType.CV_64F);
-            averageImage = Mat.Zeros(size.Width,1, MatType.CV_64F);
-            // hejhopp gummisnopp
+            averageImage = Mat.Zeros(imageVectorSize, MatType.CV_64F);
+            //L[n] = Mat.Zeros(sizy, MatType.CV_64F);
+            final[n] = new Mat();
 
             for (int i = 0; i < numberOfTraining; ++i)
             {
                 queryImage[i] = OpenCvSharp.Unity.TextureToMat(images[n][i]);
-
-                queryImage[i].Resize(covarianceSize);
 
                 // Grayscale image
                 queryImage[i] = queryImage[i].CvtColor(ColorConversionCodes.BGR2GRAY);
@@ -71,27 +76,44 @@ unsafe public class Eigenface : MonoBehaviour
                 queryImage[i].ConvertTo(queryImage[i], MatType.CV_64F);
 
                 reshapedImages[i] = queryImage[i].Reshape(0, queryImage[i].Rows*queryImage[i].Cols).Clone();
-
-                averageImage += queryImage[i];
+                averageImage += reshapedImages[i];
+                
+                final[n].PushBack(reshapedImages[i].T());
+                //A.col( 0 ).copyTo( B.col(0) ); // that's fine
             }
-
+            Debug.Log(final[n].Cols);
             averageImage /= numberOfCards;
 
-            Debug.Log(averageImage);
-            Debug.Log(reshapedImages[0]);
+            Debug.Log("After: " + final[n]);
+            Mat mean = new Mat();
+            pCA[n] = new PCA(final[n], mean, PCA.Flags.DataAsCol);
 
+            //for (int i = 0; i < numberOfTraining; ++i)
+            //{
+            //    A[i] = reshapedImages[i] - averageImage; // Apply average image to all images
+            //}
 
-            // TASK: Transpose diffImage matrix, transpose will transpose both the inside and outside array
-            // Calculate the covariance matrix for each card
-            for (int i = 0; i < numberOfTraining; ++i)
-            {
-                diffImage[i] = reshapedImages[i] - averageImage;
-                covariance[n] += diffImage[i] * diffImage[i].T();
-            }
-            
-            covariance[n] /= (numberOfCards);
+            //for(int i = 0; i < numberOfTraining; ++i)
+            //{
+            //    for(int j = 0; j < numberOfTraining; ++j)
+            //    {
+            //        L[n].PushBack(A[j].T() * A[i]);
+            //    }
+            //}
+
+            //L[n] = L[n].Resize(sizu);
+            //Debug.Log(L[n]);
+
+            //for (int i = 0; i < numberOfCards; ++i)
+            //{
+            //    Cv2.Eigen(L[n], eigenValues, eigenVectors);
+            //    Debug.Log(eigenVectors);
+            //    for (int k = 0; k < numberOfTraining; ++k)
+            //    {
+            //        eigenVectorsFinal[n] += eigenVectors.At<double>(k);
+            //    }
+            //}
         }
-        Debug.Log(covariance);
 
         // We use foreach here to access each Texture2D in images
         //for (int i = 0; i < numberOfImages; ++i)
@@ -116,25 +138,25 @@ unsafe public class Eigenface : MonoBehaviour
         /********************************************************
         * Calculate Eigenvector and eigenvalues for all cards *
         *********************************************************/
-
+        
         // Initialize Eigenvector(EV) to get the correct MatType
         Mat sum = Mat.Zeros(covarianceSize, MatType.CV_64F);
 
-        // Calculate Eigenvector(EV)
-        for (int i = 0; i < numberOfCards; ++i)
-        {
-            sum += covariance[i];
-        }
-        EV = sum / numberOfCards;
+        //// Calculate Eigenvector(EV)
+        //for (int i = 0; i < numberOfCards; ++i)
+        //{
+        //    sum += covariance[i];
+        //}
+        //EV = sum / numberOfCards;
 
-        // Calculate the normalized eigenvalues of all images
-        eigenImage = new Mat[numberOfCards];
+        //// Calculate the normalized eigenvalues of all images
+        //eigenImage = new Mat[numberOfCards];
 
-        for (int i = 0; i < numberOfCards; ++i)
-        {
-            tmp = covariance[i] - EV;
-            eigenImage[i] = tmp.Normalize(255 * 64, 0, NormTypes.L2);
-        }
+        //for (int i = 0; i < numberOfCards; ++i)
+        //{
+        //    tmp = covariance[i] - EV;
+        //    eigenImage[i] = tmp.Normalize(255 * 64, 0, NormTypes.L2);
+        //}
     }
 
     public string matchImage(WebCamTexture webCam, cards[] allCards)
