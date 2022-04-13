@@ -56,11 +56,25 @@ public class Timer: MonoBehaviour
             // Resets timer
             if (Game.activePlayers[0].getIsActive())
             {
+                
+                if (Game.activePlayers[0].getPlayerPhase().text == "Attack"){
+                    Game.activePlayers[0].resetHasAttacked();
+                    Game.activePlayers[0].setManaLimit(Game.activePlayers[0].getManaLimit() + 1);
+                    Game.activePlayers[0].setAvailableMana(Game.activePlayers[0].getManaLimit());
+                }
                 TurnSystem.changeUI(Game.activePlayers[0], Game.activePlayers[1]);
+                
             }
             else if (Game.activePlayers[1].getIsActive())
             {
+                
+                if (Game.activePlayers[1].getPlayerPhase().text == "Attack"){
+                    Game.activePlayers[1].resetHasAttacked();
+                    Game.activePlayers[1].setManaLimit(Game.activePlayers[1].getManaLimit() + 1);
+                    Game.activePlayers[1].setAvailableMana(Game.activePlayers[1].getManaLimit());
+                }
                 TurnSystem.changeUI(Game.activePlayers[1], Game.activePlayers[0]);
+                
             }
             timeRemaining = resetvalue;
         }

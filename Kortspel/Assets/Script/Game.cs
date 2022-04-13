@@ -29,8 +29,8 @@ public class Game : MonoBehaviour
     void Start()
     {
         //Setting player0 to isActive = true for now, later we should coinflip this
-        activePlayers.Add(new Player(0,40,false,"player1", player1Phase,player1EndTurnButton_text,player1_textTimer));
-        activePlayers.Add(new Player(0, 40, false, "player2", player2Phase,player2EndTurnButton_text, player2_textTimer));
+        activePlayers.Add(new Player(1,40,false,"player1", player1Phase,player1EndTurnButton_text,player1_textTimer));
+        activePlayers.Add(new Player(1, 40, false, "player2", player2Phase,player2EndTurnButton_text, player2_textTimer));
 
         //flip a coin on who should start
         if (coinflip() <= 0.5f)

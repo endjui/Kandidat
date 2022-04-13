@@ -12,10 +12,10 @@ public class Player : MonoBehaviour
     public List<GameObject> playerCards = new List<GameObject>(); 
     int Hp;
     bool isActive;
-    int manaLimit;
+    int manaLimit = 1;
     int maxHP = 40;
     int maxMana = 10;
-    int availableMana = 0;
+    int availableMana = 1;
     string playerName;
     public bool hasChanged = false;
 
@@ -163,5 +163,5 @@ public class Player : MonoBehaviour
 }
 
 
-//attackfas -> target selection dyker upp för varje kort, selection visar zoner som är tomma eller ej för motståndaren, target & attackerande räknar ut damage och updaterar spelares HP
-//ta bort kort och updatera zoner och selection, ta bort selection för kort som attackerat
+//attackfas -> target selection dyker upp fï¿½r varje kort, selection visar zoner som ï¿½r tomma eller ej fï¿½r motstï¿½ndaren, target & attackerande rï¿½knar ut damage och updaterar spelares HP
+//ta bort kort och updatera zoner och selection, ta bort selection fï¿½r kort som attackerat

@@ -597,8 +597,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1button: {fileID: 4597816}
   player2button: {fileID: 249307804}
-  timeRemaining: 30
-  resetvalue: 30
+  timeRemaining: 15
+  resetvalue: 15
 --- !u!1 &147770731
 GameObject:
   m_ObjectHideFlags: 0
