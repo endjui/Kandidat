@@ -201,7 +201,7 @@ unsafe public class Eigenface : MonoBehaviour
                 Mat temp2 = temp.T() * eig; // Och det här är fel
                 
                 phi[n] += temp2; // Den här blir fel 
-            }
+            }//aaa
 
             tmp = testImage[n] - phi[n];
             result[n] = tmp.Norm();
