@@ -8,32 +8,21 @@ unsafe public class Eigenface : MonoBehaviour
 {
 
     // Class variables
-    //private Texture2D webCamOutput;
-    //private GameObject gameObject;
-    //private GameObject gameObject1;
-    
-    
-    public Texture2D imagine;
-    public Mat[] queryImage;
-    public Mat[] eigenImage;
-    public Mat EV;
-    public Mat currentImage;
-    public Mat test;
-    public Mat temp;
-    public Size size;
-    public Size covarianceSize;
-    public int numberOfCards;
-    public int numberOfTraining;
-    public double[] result;
-    public PCA[] pCA;
-    public Mat[] testImage;
-    public Mat mean;
-    public Mat[] averageImage;
-    public Mat[] eigenVectors;
-    public Mat eig;
-    public Mat[] phi;
-    public Size imageVectorSize;
-    public Mat tmp;
+    private Mat queryImage;
+    private Mat currentImage;
+    private Mat temp;
+    private Size size;
+    private int numberOfCards;
+    private int numberOfTraining;
+    private double[] result;
+    private PCA[] pCA;
+    private Mat[] testImage;
+    private Mat[] mean;
+    private Mat[] eigenVectors;
+    private Mat eig;
+    private Mat[] phi;
+    private Size imageVectorSize;
+    private Mat tmp;
 
     public Eigenface(WebCamTexture webCam, Texture2D[][] images)
     {
@@ -41,7 +30,7 @@ unsafe public class Eigenface : MonoBehaviour
         //gameObject = GameObject.Find("webCam");
         //gameObject1 = GameObject.Find("queryImage");
 
-        size = new Size(images[0][0].width, images[0][0].height);
+        size = new Size(images[0][0].width*0.1, images[0][0].height*0.1);
         imageVectorSize = new Size(1, size.Width * size.Height);
         //Size sizu = new Size(numberOfTraining, numberOfTraining);
         //Size sizy = new Size(1, numberOfTraining * numberOfTraining);
@@ -49,57 +38,48 @@ unsafe public class Eigenface : MonoBehaviour
         numberOfCards = images.Length;
         numberOfTraining = images[0].Length;
         result = new double[numberOfCards];
-
         /*********************************************************
         * Convert all images to matricies and grayscale them     *
         **********************************************************/
 
         // Initialize all matricies used for calculations
         pCA = new PCA[numberOfCards];
-        averageImage = new Mat[numberOfCards];
         eigenVectors = new Mat[numberOfCards];
         phi = new Mat[numberOfCards];
         Mat[] final = new Mat[numberOfCards];
-        Mat eigenValues = new Mat();
-        Mat[] A = new Mat[numberOfTraining];
-        Mat[] reshapedImages = new Mat[numberOfTraining];
-        Mat[] L = new Mat[numberOfCards];
-        Mat[] eigenVectorsFinal = new Mat[numberOfCards];
-        mean = new Mat();
-        queryImage = new Mat[numberOfCards];
+        Mat reshapedImages;
         currentImage = new Mat();
-        temp = new Mat();
         testImage = new Mat[numberOfCards];
+        mean = new Mat[numberOfCards];
+
 
         for (int n = 0; n < numberOfCards; ++n)
         {
-            averageImage[n] = Mat.Zeros(imageVectorSize, MatType.CV_64F);
-            //L[n] = Mat.Zeros(sizy, MatType.CV_64F);
             final[n] = new Mat();
 
             for (int i = 0; i < numberOfTraining; ++i)
             {
-                queryImage[i] = OpenCvSharp.Unity.TextureToMat(images[n][i]);
+                queryImage = OpenCvSharp.Unity.TextureToMat(images[n][i]);
 
+                queryImage = queryImage.Resize(size);
                 // Grayscale image
-                queryImage[i] = queryImage[i].CvtColor(ColorConversionCodes.BGR2GRAY);
+                queryImage = queryImage.CvtColor(ColorConversionCodes.BGR2GRAY);
 
                 // Convert to correct MatType
-                queryImage[i].ConvertTo(queryImage[i], MatType.CV_64F);
+                queryImage.ConvertTo(queryImage, MatType.CV_64FC1);
 
-                reshapedImages[i] = queryImage[i].Reshape(0, queryImage[i].Rows*queryImage[i].Cols).Clone();
-                averageImage[n] += reshapedImages[i];
+                reshapedImages = queryImage.Reshape(0, queryImage.Rows*queryImage.Cols).Clone();
                 
-                final[n].PushBack(reshapedImages[i].T());
+                final[n].PushBack(reshapedImages.T());
                 //A.col( 0 ).copyTo( B.col(0) ); // that's fine
             }
 
-            averageImage[n] /= numberOfCards;
-
             eigenVectors[n] = new Mat();
-
-            pCA[n] = new PCA(final[n], mean, PCA.Flags.DataAsCol);
-            eigenVectors[n] = pCA[n].Eigenvectors.Normalize(255, 0, NormTypes.L2);
+            pCA[n] = new PCA(final[n].T(), new Mat(), PCA.Flags.DataAsCol);
+            //pCA[n] = new PCA(final[n], mean, PCA.Flags.DataAsRow);
+            eigenVectors[n] = pCA[n].Eigenvectors; //.Normalize(255, 0, NormTypes.L2);
+            mean[n] = pCA[n].Mean;
+            Debug.Log(eigenVectors[n]);
 
             //for (int i = 0; i < numberOfTraining; ++i)
             //{
@@ -151,7 +131,7 @@ unsafe public class Eigenface : MonoBehaviour
         /********************************************************
         * Calculate Eigenvector and eigenvalues for all cards *
         *********************************************************/
-        
+
         // Initialize Eigenvector(EV) to get the correct MatType
         //Mat sum = Mat.Zeros(covarianceSize, MatType.CV_64F);
 
@@ -170,40 +150,40 @@ unsafe public class Eigenface : MonoBehaviour
         //    tmp = covariance[i] - EV;
         //    eigenImage[i] = tmp.Normalize(255 * 64, 0, NormTypes.L2);
         //}
+        Resources.UnloadUnusedAssets();
+
     }
 
     public string matchImage(WebCamTexture webCam, cards[] allCards)
     {
 
         // Convert the WebCamTexture to Mat type
-        currentImage = OpenCvSharp.Unity.TextureToMat(Resources.Load<Texture2D>("Images/VineSkeleton/VineSkeleton"));
+        currentImage = OpenCvSharp.Unity.TextureToMat(Resources.Load<Texture2D>("Images/VineSlinger/VineSlinger"));
 
         // Resize of image for comparasion, might not be needed
-        //currentImage = currentImage.Resize(covarianceSize);
+        currentImage = currentImage.Resize(size);
 
         // Gray scale image
         currentImage = currentImage.CvtColor(ColorConversionCodes.BGR2GRAY);
 
         // Convert to correct type for comparasion
-        currentImage.ConvertTo(currentImage, MatType.CV_64F);
-
+        currentImage.ConvertTo(currentImage, MatType.CV_64FC1);
+        Size ss = new Size(imageVectorSize.Height,1);
         currentImage = currentImage.Reshape(0, currentImage.Rows * currentImage.Cols).Clone();
 
         for (int n = 0; n < numberOfCards; ++n)
         {
-            testImage[n] = currentImage - averageImage[n];
-            phi[n] = Mat.Zeros(imageVectorSize, MatType.CV_64F);
+            testImage[n] = currentImage - mean[n];
+            phi[n] = Mat.Zeros(ss, MatType.CV_64FC1);
 
             for (int i = 0; i < numberOfTraining; ++i)
             {
-                eig = eigenVectors[n].ColRange(i, i+1);
-                Mat temp = eig * testImage[n].T(); // Det här är fel
-                Mat temp2 = temp.T() * eig; // Och det här är fel
-                
-                phi[n] += temp2; // Den här blir fel 
-            }//aaa
+                eig = eigenVectors[n].RowRange(i,i+1);
+                temp = (testImage[n] * eig);
+                phi[n] += eig * temp; // Den här blir fel 
+            }
 
-            tmp = testImage[n] - phi[n];
+            tmp = testImage[n] - phi[n].T();
             result[n] = tmp.Norm();
         }
 
