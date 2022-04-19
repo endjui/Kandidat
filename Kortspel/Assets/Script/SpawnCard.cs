@@ -17,15 +17,39 @@ public class SpawnCard : MonoBehaviour
 
     public TextAsset jsonFile;
 
-    public CardList CardsInJson;
+    public CardList cardsInJson;
+    public WebCamTexture webCam;
+    public Texture2D[][] images;
+    public Eigenface scanner;
 
     // Start is called before the first frame update
     void Start()
     {
         Button btn = scanButton.GetComponent<Button>();
         btn.onClick.AddListener(TaskOnClick);
-        CardsInJson = JsonConvert.DeserializeObject<CardList>(jsonFile.text);
+        cardsInJson = JsonConvert.DeserializeObject<CardList>(jsonFile.text);
 
+        // Get all camera devices and play the correct Camera
+        WebCamDevice[] devices = WebCamTexture.devices;
+        if (devices.Length > 1)
+        {
+            webCam = new WebCamTexture(devices[1].name);
+        }
+        else
+        {
+            webCam = new WebCamTexture(devices[0].name);
+        }
+        webCam.Play();
+
+        images = new Texture2D[cardsInJson.cardList.Length][];
+        for (int i = 0; i < cardsInJson.cardList.Length; i++)
+        {
+            //images[i] = Resources.Load<Texture2D>(cardsInJson.cardList[i].getPath());
+            images[i] = Resources.LoadAll<Texture2D>(cardsInJson.cardList[i].getPath());
+        }
+
+        //scanner = new Eigenface(webCam, images);
+        scanner = new Eigenface(images);
     }
 
     // Update is called once per frame
@@ -43,7 +67,7 @@ public class SpawnCard : MonoBehaviour
             // Check if it is Attack phase, if it is not, let the active player play a card
             if (Game.activePlayers[0].getPlayerPhase().text != "Attack")
             {
-                spawnCard(matchCard("https://drive.google.com/uc?export=download&id=1YBJnwk_kGLlgzbyQPFpG8XeQpWv60mIX"), Game.activePlayers[0], zonesP1);
+                spawnCard(matchCard(scanner.matchImage(webCam, cardsInJson.cardList)), Game.activePlayers[0], zonesP1);
             }
          }
         else if(Game.activePlayers[1].getIsActive())
@@ -52,7 +76,7 @@ public class SpawnCard : MonoBehaviour
             if (Game.activePlayers[1].getPlayerPhase().text != "Attack")
             {
 
-                spawnCard(matchCard("Assets/Resources/Images/robin_stick.png"), Game.activePlayers[1], zonesP2);
+                spawnCard(matchCard(scanner.matchImage(webCam, cardsInJson.cardList)), Game.activePlayers[1], zonesP2);
             }
         }
     }
@@ -60,26 +84,26 @@ public class SpawnCard : MonoBehaviour
 
     //Matches card in database and returns the card in Cards format
     //Uses URL right now, can be changed to name or anything else
-    public Cards matchCard(string cardUrl)
+    public Cards matchCard(string cardPath)
     {
         Cards foundCard = new Cards();
         Debug.Log("Trying to match card");
-        foreach(Cards thisCard in CardsInJson.cardList)
+        foreach(Cards card in cardsInJson.cardList)
         {
             //Before thisCard.getName() == cardName
-            if (thisCard.getPath() == cardUrl)
+            if (card.getPath() == cardPath)
             {
-                Debug.Log("Found creature: " + thisCard.getName() + "! " + thisCard.getDescription());
+                Debug.Log("Found creature: " + card.getName() + "! " + card.getDescription());
 
-                foundCard.setValues(thisCard.getName(),
-                                     thisCard.getType(),
-                                     thisCard.getMana(),
-                                     thisCard.getHp(),
-                                     thisCard.getAttack(),
-                                     thisCard.getTribe(),
-                                     thisCard.getDescription(),
-                                     thisCard.getKeywords(),
-                                     thisCard.getPath());
+                foundCard.setValues(card.getName(),
+                                     card.getType(),
+                                     card.getMana(),
+                                     card.getHp(),
+                                     card.getAttack(),
+                                     card.getTribe(),
+                                     card.getDescription(),
+                                     card.getKeywords(),
+                                     card.getPath());
             }
         }
 

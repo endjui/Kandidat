@@ -9,7 +9,7 @@
       "mana": 2,
       "description": "",
       "keywords": "",
-      "path": "https://drive.google.com/uc?export=download&id=1YBJnwk_kGLlgzbyQPFpG8XeQpWv60mIX"
+      "path": "Images/VineSkeleton"
     },
     {
       "name": "Vine Slinger",
@@ -20,7 +20,7 @@
       "mana": 2,
       "description": "",
       "keywords": "",
-      "path": "https://drive.google.com/uc?export=download&id=1_UNzql4eywKzfbvTvb4LY8FhH2Id2WYK"
+      "path": "Images/VineSlinger"
     },
     {
       "name": "Vine Sprout",
@@ -31,7 +31,7 @@
       "mana": 1,
       "description": "",
       "keywords": "",
-      "path": "https://drive.google.com/uc?export=download&id=1UDDgag5E2_kHAkulod0y1_WENj9z_8rB"
+      "path": "Images/VineSprout"
     },
     {
       "name": "Robin Stick",
@@ -42,13 +42,14 @@
       "mana": 1,
       "description": "He a robin and a stick",
       "keywords": "",
-      "path": "Assets/Resources/Images/robin_stick.png"
+      "path": "Images/RobinStick"
     },
     {
       "name": "Test Spell",
       "type": "spell",
       "mana": 1,
-      "description": "This is a spell used for testing and showing what a JSON file with mutiple cards look like. It has no special abilities"
+      "description": "This is a spell used for testing and showing what a JSON file with mutiple cards look like. It has no special abilities",
+      "path":  "Images/Spell"
     }
   ]
 }
