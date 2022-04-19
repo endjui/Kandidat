@@ -18,8 +18,7 @@ public class SpawnCard : MonoBehaviour
     public TextAsset jsonFile;
     public CardList cardsInJson;
     public WebCamTexture webCam;
-    public Texture2D[] images;
-    public Texture2D[][] images2D;
+    public Texture2D[][] images;
     public Eigenface scanner;
     
 
@@ -42,15 +41,15 @@ public class SpawnCard : MonoBehaviour
         }
         webCam.Play();
 
-        images2D = new Texture2D[cardsInJson.cardList.Length][];
+        images = new Texture2D[cardsInJson.cardList.Length][];
         for(int i = 0; i < cardsInJson.cardList.Length; i++)
         {
             //images[i] = Resources.Load<Texture2D>(cardsInJson.cardList[i].getPath());
-            images2D[i] = Resources.LoadAll<Texture2D>(cardsInJson.cardList[i].getPath());
+            images[i] = Resources.LoadAll<Texture2D>(cardsInJson.cardList[i].getPath());
         }
 
         //scanner = new Eigenface(webCam, images);
-        scanner = new Eigenface(webCam, images2D);
+        scanner = new Eigenface(images);
     }
 
     // Update is called once per frame
@@ -90,21 +89,21 @@ public class SpawnCard : MonoBehaviour
     {
         cards foundCard = new cards();
         
-        foreach(cards thisCard in cardsInJson.cardList)
+        foreach(cards card in cardsInJson.cardList)
         {
-            if(thisCard.getPath() == cardPath)
+            if(card.getPath() == cardPath)
             {
-                Debug.Log("Found creature: " + thisCard.getName() + "! " + thisCard.getDescription());
+                Debug.Log("Found creature: " + card.getName() + "! " + card.getDescription());
 
-                foundCard.setValues(thisCard.getName(),
-                                     thisCard.getType(),
-                                     thisCard.getMana(),
-                                     thisCard.getHp(),
-                                     thisCard.getAttack(),
-                                     thisCard.getTribe(),
-                                     thisCard.getDescription(),
-                                     thisCard.getKeywords(),
-                                     thisCard.getPath());
+                foundCard.setValues(card.getName(),
+                                     card.getType(),
+                                     card.getMana(),
+                                     card.getHp(),
+                                     card.getAttack(),
+                                     card.getTribe(),
+                                     card.getDescription(),
+                                     card.getKeywords(),
+                                     card.getPath());
             }
         }
 
