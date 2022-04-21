@@ -6,18 +6,32 @@ using Newtonsoft.Json;
 
 public class SpawnCard : MonoBehaviour
 {
+    //UI Button to scan/spawn monsters
     public Button scanButton;
+
+    //The creaturePrefab to spawn
     public GameObject creaturePrefab;
+
+    //Variable for the creature class
     public Creature myCreature;
+
+    //Max zones available for both players
     const int maxZones = 5;
+
+    //Arrays of gameobjects containing the position/transform for the
+    //zones for player 1 and player2.
     public GameObject[] zonesP1 = new GameObject[maxZones];
     public GameObject[] zonesP2 = new GameObject[maxZones];
 
     public static Cards cardToSpawn = null;
 
+    //The database file
     public TextAsset jsonFile;
 
+    //An array of Cards
     public CardList cardsInJson;
+
+    //Image recognition variables
     public WebCamTexture webCam;
     public Texture2D[][] images;
     public Eigenface scanner;
@@ -25,8 +39,11 @@ public class SpawnCard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Initilize the button
         Button btn = scanButton.GetComponent<Button>();
         btn.onClick.AddListener(TaskOnClick);
+
+        //Convert JSon database and add to the CardList array
         cardsInJson = JsonConvert.DeserializeObject<CardList>(jsonFile.text);
 
         // Get all camera devices and play the correct Camera
@@ -61,21 +78,23 @@ public class SpawnCard : MonoBehaviour
 
     void TaskOnClick()
     {
-        //This is really bad coding. It should be re-written but I will have it like this for now.
+        //Check if Player1 is active.
         if (Game.activePlayers[0].getIsActive())
         {
-            // Check if it is Attack phase, if it is not, let the active player play a card
+            // Check if Player 1 is in Attack phase, if not, let the player scan a card
             if (Game.activePlayers[0].getPlayerPhase().text != "Attack")
             {
+                //Spawns the card being scanned if the player has enough avilable Mana and there are available zones
                 spawnCard(matchCard(scanner.matchImage(webCam, cardsInJson.cardList)), Game.activePlayers[0], zonesP1);
             }
          }
-        else if(Game.activePlayers[1].getIsActive())
+        //Check if Player2 is active.
+        else if (Game.activePlayers[1].getIsActive())
         {
-            // Check if it is Attack phase, if it is not, let the active player play a card
+            // Check if Player 2 is in Attack phase, if not, let the player scan a card
             if (Game.activePlayers[1].getPlayerPhase().text != "Attack")
             {
-
+                //Spawns the card being scanned if the player has enough avilable Mana and there are available zones
                 spawnCard(matchCard(scanner.matchImage(webCam, cardsInJson.cardList)), Game.activePlayers[1], zonesP2);
             }
         }
@@ -83,14 +102,18 @@ public class SpawnCard : MonoBehaviour
 
 
     //Matches card in database and returns the card in Cards format
-    //Uses URL right now, can be changed to name or anything else
+    //Uses the Path of the card to match
+    //This function will return a card with HP =-1, if no card was found
     public Cards matchCard(string cardPath)
     {
         Cards foundCard = new Cards();
         Debug.Log("Trying to match card");
+
+        //Goes through the database to find a card with the same path as the input argument
         foreach(Cards card in cardsInJson.cardList)
         {
-            //Before thisCard.getName() == cardName
+            //If a card is found set foundCard's variables to the correct
+            //values from the database
             if (card.getPath() == cardPath)
             {
                 Debug.Log("Found creature: " + card.getName() + "! " + card.getDescription());
@@ -106,7 +129,7 @@ public class SpawnCard : MonoBehaviour
                                      card.getPath());
             }
         }
-
+        //Card was not found
         if(foundCard.getHp() == -1)
         {
 
@@ -114,52 +137,55 @@ public class SpawnCard : MonoBehaviour
 
         }
         return foundCard;
-
     }
 
-
+    //Spawns the card "spawn" for Player "P" in available zone
+    //If no zone is avaialble no card will spawn
+    //If input argument spawn.getHp() = -1, no card will be spawned
     public void spawnCard(Cards spawn, Player p, GameObject[] zones)
     {
+        //Check if conditions are met to spawn the card
         if (spawn.getHp() != -1 && (p.getAvailableMana() - spawn.getMana()) >= 0)
         {
             int zone = p.getAvailableZone();
             if (zone != -1)
             {
-
+                //Check if the card is of type creature
                 if (spawn.getType() == "creature")
                 {
-                    //Debug.Log("Spawning creature");
-                    GameObject cardName = Instantiate(creaturePrefab, zones[zone].transform.position, zones[zone].transform.rotation, zones[zone].transform) as GameObject;
-                    cardName.name = spawn.getName();
-                    //Create an acessable "creature"
-                    myCreature = cardName.GetComponent<Creature>();
+                    Debug.Log("Spawning creature ...");
 
+                    //Instantiate the creaturePrefab with the transfrom of the first available zone.
+                    //This creates an GameOjbect with the name of the creature and places it
+                    //in the available zone for the player(in the hierarchy tree)
+                    GameObject instantiatedCreature = Instantiate(creaturePrefab, zones[zone].transform.position, zones[zone].transform.rotation, zones[zone].transform) as GameObject;
+                    instantiatedCreature.name = spawn.getName();
+
+                    //To access the Creature script on the instantiated Prefab
+                    myCreature = instantiatedCreature.GetComponent<Creature>();
+
+                    //Set the scripts variables for the gameobject to match the card to spawn
                     myCreature.setCardInformation(spawn);
-                    //Debug.Log(myCreature.NameTEXT.text);
 
+                    //Reduce the players AvailableMana with the creatures mana cost
                     p.setAvailableMana(p.getAvailableMana() - myCreature.getMana());
 
-                    p.playerCards[zone] = cardName;
-                    //Debug.Log("" + spawn.getName()); 
+                    //Place the instantiateCreature in the playersCards list in the same slot as
+                    //the zone the card was spawned in
+                    p.playerCards[zone] = instantiatedCreature;
                 }
-                //Debug.Log("Zone was not -1 trying to spawn creature...");
+                Debug.Log("Card to spawn was not of type Creature");
             }
             else
             {
-                //Debug.Log("No Zone available");
+                Debug.Log("No Zone available");
 
             }
         } else {
             Debug.Log("No mana available for current player");
         }
-
-
-
     }
 
     //Returns the first available zone for the player from left to right
-    public int getZone(Player p)
-    {
-        return p.getAvailableZone();
-    }
+    public int getZone(Player p){return p.getAvailableZone();}
 }

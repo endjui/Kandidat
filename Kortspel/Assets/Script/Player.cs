@@ -7,16 +7,38 @@ using System;
 
 public class Player : MonoBehaviour
 {
+    //Set the maxCards allowed on the playing field.
+    //If != 5, the gameobjects, which represent the zones,
+    //must be changed.
     const int maxCards = 5;
-    //public SortedList<int, Cards> zonesAndCards = new SortedList<int, Cards>();
+
+    //A list contining all of the players cards.
     public List<GameObject> playerCards = new List<GameObject>(); 
+
+    //Players HP
     int Hp;
+
+    //Boolean that states if it's the players turn or not
     bool isActive;
+
+    //The maximum mana a player can spend per round.
+    //This is increamented after everyround.
     int manaLimit = 1;
+
+    //Maximum Player HP
     int maxHP = 40;
+
+    //Maximum Player Mana
     int maxMana = 10;
+
+    //Available mana a player can use.
     int availableMana = 1;
+
+    //Player name
     string playerName;
+
+    //If anything needs to be updated on the UI
+    //hasChanged = true
     public bool hasChanged = false;
 
     //For player phases
@@ -39,20 +61,16 @@ public class Player : MonoBehaviour
         playerEndTurnButton_text = playerBUTTON;
         textTimer = playerTIMER;
 
+        //Create a dummy gameobject to initilaze the PlayerCards list
+        //Every gamobject is set to null
         GameObject dummyObject = null;
 
-
-
-         
          for(int counter = 0; counter < maxCards; counter++)
          {
              
              playerCards.Add(dummyObject);
 
          }
-        
-
-
     }
 
     void Update()
@@ -60,77 +78,64 @@ public class Player : MonoBehaviour
         
     }
 
-    //returns if the players is active or not
-    public bool getIsActive()
-    {
-       return isActive;
-    }
-    //return maxCards
-    public int getMaxCards() { return maxCards; }
+    //Get if the players is active or not
+    public bool getIsActive(){ return isActive;}
 
-    //set if the players isactive variable
-    public void setIsActive(bool y)
-    {
+    //Get maxCards allowed on the field
+    public int getMaxCards() { return maxCards;}
 
-        isActive = y;
-    }
+    //set players isActive variable
+    public void setIsActive(bool arg){ isActive = arg;}
 
-    public void setHP(int y){
-        Hp = y;
+    //Set the players current HP
+    //set hasChanged = true,  to update UI
+    public void setHP(int arg){
+        Hp = arg;
         hasChanged = true;
-
     }
+
+    //Set the players current available Mana
+    //set hasChanged = true,  to update UI
     public void setAvailableMana(int arg)
     {
         availableMana = arg;
         hasChanged = true;
     }
-    public int getAvailableMana()
-    {
-        return availableMana;
-    }
 
-    public int getHP()
-    {
-        return Hp;
-    }
+    //Get the players availableMana
+    public int getAvailableMana(){ return availableMana;}
 
-    public void setManaLimit(int y)
+    //Get the players current HP
+    public int getHP(){return Hp;}
+
+    //Set a manaLimit
+    public void setManaLimit(int arg)
     {
-        manaLimit = y;
+        manaLimit = arg;
         hasChanged = true;
     }
 
-    public int getManaLimit()
-    {
-        return manaLimit;
-    }
+    //Get the players manaLimit
+    public int getManaLimit(){return manaLimit;}
 
-    public void setPlayerPhase(String s)
-    {
-        playerPhase.text = s;
-    }
+    //Set the players current phase
+    public void setPlayerPhase(String arg){playerPhase.text = arg;}
 
-    public Text getPlayerPhase()
-    {
-        return playerPhase;
-    }
+    //Get the playesr current phase
+    public Text getPlayerPhase(){return playerPhase;}
 
-    public void setPlayerEndTurnButton_text(String s)
-    {
-        playerEndTurnButton_text.text = s;
-    }
+    //Set the player Endturn button text
+    public void setPlayerEndTurnButton_text(String arg){playerEndTurnButton_text.text = arg;}
 
-    public void setPlayerTurnCounter(int i)
-    {
-        playerTurnCounter = i;
-    }
+    //Set the players turnCounter
+    public void setPlayerTurnCounter(int arg){playerTurnCounter = arg;}
 
-    public void setTimer(String s)
-    {
-        textTimer.text = s;
-    }
+    //Set the timers text
+    public void setTimer(String arg){textTimer.text = arg;}
 
+    //Get the first none occupide zone
+    //Will return the first zone available in the PlayerCards list
+    //If no zone is available, returns -1
     public int getAvailableZone()
     {
         int slot = -1;
@@ -146,6 +151,9 @@ public class Player : MonoBehaviour
         }
         return slot;
     }
+
+    //Resets the bool HasAttacked, for every Card/Gameobject in PlayerCards
+    //(Sets the boolean to false for every card)
     public void resetHasAttacked()
     {
         for(int i = 0; i < maxCards; i++)
@@ -161,7 +169,3 @@ public class Player : MonoBehaviour
         Debug.Log("Reset all cards");
     }
 }
-
-
-//attackfas -> target selection dyker upp f�r varje kort, selection visar zoner som �r tomma eller ej f�r motst�ndaren, target & attackerande r�knar ut damage och updaterar spelares HP
-//ta bort kort och updatera zoner och selection, ta bort selection f�r kort som attackerat

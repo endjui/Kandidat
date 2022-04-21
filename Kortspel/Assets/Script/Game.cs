@@ -4,23 +4,29 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+
+/***************************************/
+/*******Main class for the game*********/
+/***************************************/
 public class Game : MonoBehaviour
 {
+    //A list containing both of the players. 
+    //Static, can be accessed anywhere.
     public static List<Player> activePlayers = new List<Player>();
 
-
+    //UI text for HP and mana
     public Text HPTEXTPlayer1;
     public Text ManaTEXTPlayer1;
     public Text HPTEXTPlayer2;
     public Text ManaTEXTPlayer2;
 
-    // Text for the player phases and buttons
+    //UI text for the player phases and end buttons
     public Text player1Phase;
     public Text player1EndTurnButton_text;
     public Text player2Phase;
     public Text player2EndTurnButton_text;
 
-    // The text for the clock
+    //UI text for the clock
     public Text player1_textTimer;
     public Text player2_textTimer;
 
@@ -28,11 +34,13 @@ public class Game : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Setting player0 to isActive = true for now, later we should coinflip this
-        activePlayers.Add(new Player(1,40,false,"player1", player1Phase,player1EndTurnButton_text,player1_textTimer));
+        //Adds 2 new Players to the activePlayers list.
+        //A config could be added here to set max HP or other variables.
+        activePlayers.Add(new Player(1, 40,false,"player1", player1Phase,player1EndTurnButton_text,player1_textTimer));
         activePlayers.Add(new Player(1, 40, false, "player2", player2Phase,player2EndTurnButton_text, player2_textTimer));
 
-        //flip a coin on who should start
+        //Randomly pick a player that goes first
+        //For more information, check the coinflip() function
         if (coinflip() <= 0.5f)
         {
             activePlayers[0].setIsActive(true);
@@ -51,18 +59,10 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //if statmenet for which players turn it is. 
-        if(activePlayers[0].getIsActive())
-        {
         
-
-        }else if(activePlayers[1].getIsActive())
-        {
-
-
-        }
-
+        //Is called everyframe to check if any information about the player has changed.
+        //If information has changed, update the UI or end the game.
+        //Could be added as a function to avoid repetitive code.
         if (activePlayers[0].hasChanged)
         {
             HPTEXTPlayer1.text = ("" + activePlayers[0].getHP());
@@ -93,13 +93,14 @@ public class Game : MonoBehaviour
     //flips a coin on which players should start
     public float coinflip()
     {
-        //will return a value from 0 - 1
+        //will return a value/float from 0 - 1.fs
         return Random.Range(0f, 1f);
 
 
     }
 
     //Set values for the match
+    //???????
     void setStartValues()
     {
 

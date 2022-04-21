@@ -6,6 +6,7 @@ using System;
 
 public class TurnSystem : MonoBehaviour
 {
+    //UI Buttons for Player1 and Player2s
     public Button player1button;
     public Button player2button;
 
@@ -23,12 +24,6 @@ public class TurnSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
-         * Phase 1: Play Cards
-         * Phase 2: Attack Phase
-         * Phase 3: Opponets turn
-         */
-
     }
 
     public void Player1_endButtonTask()
@@ -38,6 +33,9 @@ public class TurnSystem : MonoBehaviour
         if (Game.activePlayers[0].getIsActive())
         {
             Debug.Log("Player 1 active and end button pressed.");
+
+            //If the player is in Attack phase end their round
+            //Reset monsters attack bool, increase mana limit and set available mana.
             if (Game.activePlayers[0].getPlayerPhase().text == "Attack")
             {
                 Game.activePlayers[0].resetHasAttacked();
@@ -55,7 +53,10 @@ public class TurnSystem : MonoBehaviour
         if (Game.activePlayers[1].getIsActive())
         {
             Debug.Log("Player 2 active and end button pressed.");
-            if(Game.activePlayers[1].getPlayerPhase().text == "Attack"){
+
+            //If the player is in Attack phase end their round
+            //Reset monsters attack bool, increase mana limit and set available mana.
+            if (Game.activePlayers[1].getPlayerPhase().text == "Attack"){
                 Game.activePlayers[1].resetHasAttacked();
                 Game.activePlayers[1].setManaLimit(Game.activePlayers[1].getManaLimit() + 1);
                 Game.activePlayers[1].setAvailableMana(Game.activePlayers[1].getManaLimit());

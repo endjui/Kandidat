@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/OpenCV+Unity/Demo/Face_Detector/FaceDetectorScene.unity
+- path: Assets/Scenes/CardGame.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

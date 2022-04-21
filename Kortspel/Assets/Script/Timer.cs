@@ -5,9 +5,12 @@ using UnityEngine.UI;
 
 public class Timer: MonoBehaviour
 {
+    //UI buttons for Player 1 and Player 2
     public Button player1button;
     public Button player2button;
 
+    //Variables for how long every phase should be.
+    //30.f = 30 seconds
     public float timeRemaining = 30.0f;
     public float resetvalue = 30.0f;
 
@@ -56,7 +59,8 @@ public class Timer: MonoBehaviour
             // Resets timer
             if (Game.activePlayers[0].getIsActive())
             {
-                
+                //If the timer has run out and the player is in Attack phase
+                //Reset hasAttacked, increase mana limit and set available mana
                 if (Game.activePlayers[0].getPlayerPhase().text == "Attack"){
                     Game.activePlayers[0].resetHasAttacked();
                     Game.activePlayers[0].setManaLimit(Game.activePlayers[0].getManaLimit() + 1);
@@ -67,7 +71,8 @@ public class Timer: MonoBehaviour
             }
             else if (Game.activePlayers[1].getIsActive())
             {
-                
+                //If the timer has run out and the player is in Attack phase
+                //Reset hasAttacked, increase mana limit and set available mana
                 if (Game.activePlayers[1].getPlayerPhase().text == "Attack"){
                     Game.activePlayers[1].resetHasAttacked();
                     Game.activePlayers[1].setManaLimit(Game.activePlayers[1].getManaLimit() + 1);
