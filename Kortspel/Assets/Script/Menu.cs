@@ -28,15 +28,13 @@ public class Menu : MonoBehaviour
         Application.Quit();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        //kan behövas för grafik och musik
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        //kan ev. behövas för grafik och musik
     }
 }
