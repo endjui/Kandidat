@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using System;
 
 public class Player : MonoBehaviour
@@ -16,7 +14,7 @@ public class Player : MonoBehaviour
     public List<GameObject> playerCards = new List<GameObject>(); 
 
     //Players HP
-    int Hp;
+    int hp;
 
     //Boolean that states if it's the players turn or not
     bool isActive;
@@ -46,20 +44,20 @@ public class Player : MonoBehaviour
     public Text playerEndTurnButton_text;
     public int playerTurnCounter;
 
-    // FOr player timer
+    // For player timer
     // The text for the clock
     public Text textTimer;
 
     //constructor that initilizes the variables.
-    public Player(int MANA, int HP, bool isACTIVE, string playerNAME, Text playerPHASE, Text playerBUTTON, Text playerTIMER)
+    public Player(int _mana, int _hp, bool _isActive, string _playerName, Text _playerPhase, Text _playerButton, Text _playerTimer)
     {
-        Hp = HP;
-        manaLimit = MANA;
-        isActive = isACTIVE;
-        playerName = playerNAME;
-        playerPhase = playerPHASE;
-        playerEndTurnButton_text = playerBUTTON;
-        textTimer = playerTIMER;
+        hp = _hp;
+        manaLimit = _mana;
+        isActive = _isActive;
+        playerName = _playerName;
+        playerPhase = _playerPhase;
+        playerEndTurnButton_text = _playerButton;
+        textTimer = _playerTimer;
 
         //Create a dummy gameobject to initilaze the PlayerCards list
         //Every gamobject is set to null
@@ -67,15 +65,8 @@ public class Player : MonoBehaviour
 
          for(int counter = 0; counter < maxCards; counter++)
          {
-             
              playerCards.Add(dummyObject);
-
          }
-    }
-
-    void Update()
-    {
-        
     }
 
     //Get if the players is active or not
@@ -89,8 +80,8 @@ public class Player : MonoBehaviour
 
     //Set the players current HP
     //set hasChanged = true,  to update UI
-    public void setHP(int arg){
-        Hp = arg;
+    public void setPlayerHP(int arg){
+        hp = arg;
         hasChanged = true;
     }
 
@@ -106,7 +97,7 @@ public class Player : MonoBehaviour
     public int getAvailableMana(){ return availableMana;}
 
     //Get the players current HP
-    public int getHP(){return Hp;}
+    public int getPlayerHP(){return hp;}
 
     //Set a manaLimit
     public void setManaLimit(int arg)

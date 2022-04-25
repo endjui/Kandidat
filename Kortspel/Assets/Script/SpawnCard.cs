@@ -23,7 +23,7 @@ public class SpawnCard : MonoBehaviour
     public GameObject[] zonesP1 = new GameObject[maxZones];
     public GameObject[] zonesP2 = new GameObject[maxZones];
 
-    public static Cards cardToSpawn = null;
+    public static Card cardToSpawn = null;
 
     //The database file
     public TextAsset jsonFile;
@@ -104,24 +104,24 @@ public class SpawnCard : MonoBehaviour
     //Matches card in database and returns the card in Cards format
     //Uses the Path of the card to match
     //This function will return a card with HP =-1, if no card was found
-    public Cards matchCard(string cardPath)
+    public Card matchCard(string cardPath)
     {
-        Cards foundCard = new Cards();
+        Card foundCard = new Card();
         Debug.Log("Trying to match card");
 
         //Goes through the database to find a card with the same path as the input argument
-        foreach(Cards card in cardsInJson.cardList)
+        foreach(Card card in cardsInJson.cardList)
         {
             //If a card is found set foundCard's variables to the correct
             //values from the database
             if (card.getPath() == cardPath)
             {
-                Debug.Log("Found creature: " + card.getName() + "! " + card.getDescription());
+                Debug.Log("Found creature: " + card.getCardName() + "! " + card.getDescription());
 
-                foundCard.setValues(card.getName(),
+                foundCard.setValues(card.getCardName(),
                                      card.getType(),
-                                     card.getMana(),
-                                     card.getHp(),
+                                     card.getCardMana(),
+                                     card.getCardHP(),
                                      card.getAttack(),
                                      card.getTribe(),
                                      card.getDescription(),
@@ -130,7 +130,7 @@ public class SpawnCard : MonoBehaviour
             }
         }
         //Card was not found
-        if(foundCard.getHp() == -1)
+        if(foundCard.getCardHP() == -1)
         {
 
             Debug.Log("Card was not found");
@@ -142,10 +142,10 @@ public class SpawnCard : MonoBehaviour
     //Spawns the card "spawn" for Player "P" in available zone
     //If no zone is avaialble no card will spawn
     //If input argument spawn.getHp() = -1, no card will be spawned
-    public void spawnCard(Cards spawn, Player p, GameObject[] zones)
+    public void spawnCard(Card spawn, Player p, GameObject[] zones)
     {
         //Check if conditions are met to spawn the card
-        if (spawn.getHp() != -1 && (p.getAvailableMana() - spawn.getMana()) >= 0)
+        if (spawn.getCardHP() != -1 && (p.getAvailableMana() - spawn.getCardMana()) >= 0)
         {
             int zone = p.getAvailableZone();
             if (zone != -1)
@@ -159,7 +159,7 @@ public class SpawnCard : MonoBehaviour
                     //This creates an GameOjbect with the name of the creature and places it
                     //in the available zone for the player(in the hierarchy tree)
                     GameObject instantiatedCreature = Instantiate(creaturePrefab, zones[zone].transform.position, zones[zone].transform.rotation, zones[zone].transform) as GameObject;
-                    instantiatedCreature.name = spawn.getName();
+                    instantiatedCreature.name = spawn.getCardName();
 
                     //To access the Creature script on the instantiated Prefab
                     myCreature = instantiatedCreature.GetComponent<Creature>();
@@ -168,7 +168,7 @@ public class SpawnCard : MonoBehaviour
                     myCreature.setCardInformation(spawn);
 
                     //Reduce the players AvailableMana with the creatures mana cost
-                    p.setAvailableMana(p.getAvailableMana() - myCreature.getMana());
+                    p.setAvailableMana(p.getAvailableMana() - myCreature.getCreatureMana());
 
                     //Place the instantiateCreature in the playersCards list in the same slot as
                     //the zone the card was spawned in

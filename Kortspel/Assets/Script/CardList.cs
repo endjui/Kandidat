@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-//Is this class really needed?
+// Required for JSON file
 public class CardList
 {
-    public Cards[] cardList;
+    public Card[] cardList;
 }

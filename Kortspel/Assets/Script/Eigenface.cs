@@ -20,8 +20,8 @@ unsafe public class Eigenface : MonoBehaviour
     private Size imageVectorSize;
     private Size eigenVectorMultiplier;
     private int numberOfCards;
-    private int[] numberOfTraining;
     private int index;
+    private int[] numberOfTraining;
     private double[] result;
     private double min;
     private string path;
@@ -157,7 +157,7 @@ unsafe public class Eigenface : MonoBehaviour
 
     }
 
-    public string matchImage(WebCamTexture webCam, Cards[] allCards)
+    public string matchImage(WebCamTexture webCam, Card[] allCards)
     {
 
         // Convert the WebCamTexture to Mat type

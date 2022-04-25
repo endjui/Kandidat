@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -22,14 +20,8 @@ public class Attack : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     //Attack button press
-    //Checks which players turn is is and make their creature attack the opponent HP or 
+    //Checks which players turn it is and make their creature attack the opponents HP or 
     //the opponents creature
     public void TaskOnClick()
     {
@@ -52,7 +44,7 @@ public class Attack : MonoBehaviour
         int targetZone = GetZone(current);
        
         //Check if the zone is != -1 and the player is in attack phase
-        if (targetZone != -1 && current.getPlayerPhase().text == "Attack") 
+        if (targetZone != -1 && current.getPlayerPhase().text == "Attack")
         {
             //AttackCreature and remove their creatures if their HP 0 =<
             AttackCreature(current, opponent, targetZone);
@@ -73,7 +65,7 @@ public class Attack : MonoBehaviour
 
         int zone = -1;
         Creature dummy = new Creature();
-        dummy = null;
+
         
         //check all zones 
         for (int i = 0; i < arg.getMaxCards(); i++)
@@ -82,14 +74,14 @@ public class Attack : MonoBehaviour
             if (arg.playerCards[i] != null)
             {
                 dummy = arg.playerCards[i].GetComponent<Creature>();
-                Debug.Log("Creature found" + dummy.getName());
+                Debug.Log("Creature found" + dummy.getCreatureName());
 
                 //Check if the Creature is able to attack this round or if 
                 //the creature already has attacked
                 if (dummy.getHasAttacked() == false)
                 {
                     zone = i;
-                    Debug.Log(dummy.getName() + "Can attack this round");
+                    Debug.Log(dummy.getCreatureName() + "Can attack this round");
                     break;
                 } else Debug.Log("No creature can attack this round");
             }
@@ -116,14 +108,14 @@ public class Attack : MonoBehaviour
 
             //Remove the attack value from the creatures HP
             //Both creatures take damage
-            target.setHp(target.getHp() - attacker.getAttack());
-            attacker.setHp(attacker.getHp() - target.getAttack());
+            target.setCreatureHP(target.getCreatureHP() - attacker.getAttack());
+            attacker.setCreatureHP(attacker.getCreatureHP() - target.getAttack());
         }
         else
         {
             //Attack the opponents current hp with the creatures Attack value
-            opponent.setHP(opponent.getHP() - attacker.getAttack());
-            Debug.Log("he attac HP, opponents hp is: " + opponent.getHP());
+            opponent.setPlayerHP(opponent.getPlayerHP() - attacker.getAttack());
+            Debug.Log("he attack HP, opponents hp is: " + opponent.getPlayerHP());
         }
 
         //Change the attacking cards bool hasAttacked to true.
@@ -139,7 +131,7 @@ public class Attack : MonoBehaviour
         {
             if (arg.playerCards[i] != null)
             {
-                if (arg.playerCards[i].GetComponent<Creature>().getHp() <= 0)
+                if (arg.playerCards[i].GetComponent<Creature>().getCreatureHP() <= 0)
                 {
                     //Destroy the game object in playerCards and set the value to null
                     Destroy(arg.playerCards[i]);

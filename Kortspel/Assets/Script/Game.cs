@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 
 /***************************************/
@@ -10,7 +8,7 @@ using UnityEngine.EventSystems;
 /***************************************/
 public class Game : MonoBehaviour
 {
-    //A list containing both of the players. 
+    //A list containing both of the players.
     //Static, can be accessed anywhere.
     public static List<Player> activePlayers = new List<Player>();
 
@@ -60,28 +58,26 @@ public class Game : MonoBehaviour
     void Update()
     {
         
-        //Is called everyframe to check if any information about the player has changed.
+        //Is called every frame to check if any information about the player has changed.
         //If information has changed, update the UI or end the game.
-        //Could be added as a function to avoid repetitive code.
         if (activePlayers[0].hasChanged)
         {
-            HPTEXTPlayer1.text = ("" + activePlayers[0].getHP());
+            HPTEXTPlayer1.text = ("" + activePlayers[0].getPlayerHP());
             ManaTEXTPlayer1.text = ("" + activePlayers[0].getAvailableMana() + " / " + activePlayers[0].getManaLimit());
 
-            if(activePlayers[0].getHP() <= 0)
+            if(activePlayers[0].getPlayerHP() <= 0)
             {
                 Application.Quit();
-
             }
             activePlayers[0].hasChanged = false;
         }
 
         if (activePlayers[1].hasChanged)
         {
-            HPTEXTPlayer2.text = ("" + activePlayers[1].getHP());
+            HPTEXTPlayer2.text = ("" + activePlayers[1].getPlayerHP());
             ManaTEXTPlayer2.text = ("" + activePlayers[1].getAvailableMana() + " / " + activePlayers[1].getManaLimit());
 
-            if (activePlayers[1].getHP() <= 0)
+            if (activePlayers[1].getPlayerHP() <= 0)
             {
                 Application.Quit();
 
@@ -96,15 +92,5 @@ public class Game : MonoBehaviour
         //will return a value/float from 0 - 1.fs
         return Random.Range(0f, 1f);
 
-
     }
-
-    //Set values for the match
-    //???????
-    void setStartValues()
-    {
-
-
-    }
-
 }
