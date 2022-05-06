@@ -53,12 +53,13 @@ public class Player : MonoBehaviour
     {
         hp = _hp;
         manaLimit = _mana;
+        availableMana = _mana;
         isActive = _isActive;
         playerName = _playerName;
         playerPhase = _playerPhase;
         playerEndTurnButton_text = _playerButton;
         textTimer = _playerTimer;
-
+        hasChanged = true;
         //Create a dummy gameobject to initilaze the PlayerCards list
         //Every gamobject is set to null
         GameObject dummyObject = null;

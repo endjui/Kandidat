@@ -7,6 +7,7 @@ public class TurnSystem : MonoBehaviour
     public Button player1button;
     public Button player2button;
 
+    //to call tutorial messages when appropiate
     void Start()
     {
         // Player 1 end button
@@ -64,6 +65,7 @@ public class TurnSystem : MonoBehaviour
 
     public static void changeUI(Player currentplayer, Player opponent)
     {
+     
         // If on current player's attack phase
         if (currentplayer.getPlayerPhase().text == "Attack")
         {
