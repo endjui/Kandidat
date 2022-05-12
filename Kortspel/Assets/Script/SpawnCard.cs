@@ -224,7 +224,8 @@ public class SpawnCard : MonoBehaviour
                                      card.getDescription(),
                                      card.getPath(),
                                      card.getTriggers(),
-                                     card.getKeywords());
+                                     card.getKeywords(),
+                                     card.getPowers());
             }
         }
         //Card was not found

@@ -6,31 +6,31 @@ public class Ability : MonoBehaviour
 {
     private string trigger;
     private string keyword;
+    private string power;
 
     public Ability()
     {
         trigger = "";
         keyword = "";
+        power = "";
     }
 
-    public Ability(string _trigger, string _keyword)
+    public Ability(string _trigger, string _keyword, string _power)
     {
         trigger = _trigger;
         keyword = _keyword;
+        power = _power;
     }
 
     public string getTrigger() { return trigger; }
     public string getKeyword() { return keyword; }
+    public string getPower() { return power; }
 
-    public void setTrigger(string _trigger)
-    {
-        trigger = _trigger;
-    }
+    public void setTrigger(string _trigger) { trigger = _trigger; }
 
-    public void setKeyword(string _keyword)
-    {
-        keyword = _keyword;
-    }
+    public void setKeyword(string _keyword) { keyword = _keyword; }
+
+    public void setPower(string _power) { power = _power; }
 
     // Ability functions
 
@@ -48,12 +48,12 @@ public class Ability : MonoBehaviour
 
             case "changePlayerMana":
                 // Add 1 mana to the player
-                player.setAvailableMana(player.getAvailableMana() + 1);
+                player.setAvailableMana(player.getAvailableMana() + int.Parse(power));
                 break;
 
             case "changeOpponentMana":
                 // Remove 1 mana from the opponent
-                opponent.setAvailableMana(opponent.getAvailableMana() - 1);
+                opponent.setAvailableMana(opponent.getAvailableMana() + int.Parse(power));
                 break;
 
             case "attackPlayer":
