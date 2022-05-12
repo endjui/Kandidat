@@ -59,7 +59,7 @@ public class SpawnCard : MonoBehaviour
         webCam.Play();
 
         images = new Texture2D[cardsInJson.cardList.Length][];
-        for (int i = 0; i < cardsInJson.cardList.Length; i++)
+        for (int i = 0; i < images.Length; i++)
         {
             //images[i] = Resources.Load<Texture2D>(cardsInJson.cardList[i].getPath());
             images[i] = Resources.LoadAll<Texture2D>(cardsInJson.cardList[i].getPath());
@@ -68,13 +68,6 @@ public class SpawnCard : MonoBehaviour
         //scanner = new Eigenface(webCam, images);
         scanner = new Eigenface(images);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
-
 
     void TaskOnClick()
     {

@@ -6,7 +6,6 @@ unsafe public class Eigenface : MonoBehaviour
 
     // Class variables
     private Mat trainingImage;
-    private Mat eigenSingle;
     private Mat[] mean;
     private Mat[] eigenVectors;
     private Size scaledImageSize;
@@ -17,10 +16,10 @@ unsafe public class Eigenface : MonoBehaviour
     public Eigenface(Texture2D[][] images)
     {
         // Initialize sizes and constants
-        scaledImageSize = new Size(images[0][0].width*0.1, images[0][0].height*0.1);
-        eigenVectorMultiplier = new Size(scaledImageSize.Width * scaledImageSize.Height, 1);
         numberOfCards = images.Length;
         numberOfTraining = new int[numberOfCards];
+        
+        
         Resources.UnloadUnusedAssets();
 
 
@@ -42,7 +41,12 @@ unsafe public class Eigenface : MonoBehaviour
             combinedTraining[n] = new Mat();
             numberOfTraining[n] = images[n].Length;
 
-            for (int i = 0; i < numberOfTraining[n]; ++i)
+            if (numberOfTraining[n] < 2) continue;
+
+            scaledImageSize = new Size(images[n][0].width * 0.05, images[n][0].height * 0.05);
+            eigenVectorMultiplier = new Size(scaledImageSize.Width * scaledImageSize.Height, 1);
+
+            for (int i = 1; i < numberOfTraining[n]; ++i)
             {
 
                 trainingImage = OpenCvSharp.Unity.TextureToMat(images[n][i]);
@@ -66,7 +70,7 @@ unsafe public class Eigenface : MonoBehaviour
                 Resources.UnloadUnusedAssets();
 
             }
-
+            
             // Calculate PCA(Principal Component Analysis) which gives mean values and eigenvectors
             pca[n] = new PCA(combinedTraining[n].T(), new Mat(), PCA.Flags.DataAsCol);
             eigenVectors[n] = pca[n].Eigenvectors; //.Normalize(255, 0, NormTypes.L2);
@@ -172,12 +176,10 @@ unsafe public class Eigenface : MonoBehaviour
         double[] result = euclidianDistance(currentWebCamTexture);
         Resources.UnloadUnusedAssets();
 
-        double min;
-        string path;
-        int index;
-
-        min = result[0];
-        index = 0;
+        double min = result[0];
+        string path = "";
+        int index = 0;
+        int minimumThreshold = 2600;
 
         // Calculate the minimum distance and it's index
         for (int i = 0; i < numberOfCards; ++i)
@@ -192,8 +194,12 @@ unsafe public class Eigenface : MonoBehaviour
         // For debugging, can delete later
         Debug.Log("Minimum distance: " + min.ToString() + " Index: " + index.ToString());
 
-        // Store the resulting path from the index
-        path = allCards[index].getPath();
+        
+        if(min < minimumThreshold)
+        {
+            // Store the resulting path from the index
+            path = allCards[index].getPath();
+        }
 
         // Clean up memory of unused assets
         Resources.UnloadUnusedAssets();
@@ -223,18 +229,26 @@ unsafe public class Eigenface : MonoBehaviour
         Mat[] currentMeanDiff = new Mat[numberOfCards];
         Mat finalDiff;
         double[] result = new double[numberOfCards];
+        Mat eigenSingle;
+
 
         // Calculate the euclidian distance to the eigenfaces
         for (int n = 0; n < numberOfCards; ++n)
         {
+            // initialize result incase we don't calculate anything
+            result[n] = int.MaxValue;
+            // if there are less than 2 images, we skip the current iteration
+            if (numberOfTraining[n] < 3) continue;
+
             // Calculate the difference between the WebCamTexture and the mean image for
             currentMeanDiff[n] = tex - mean[n];
-            Resources.UnloadUnusedAssets();
             phi[n] = Mat.Zeros(eigenVectorMultiplier, MatType.CV_64FC1);
+            
 
-            for (int i = 0; i < numberOfTraining[n]; ++i)
+            for (int i = 1; i < numberOfTraining[n]-1; ++i)
             {
                 // Use the eigenvectors for the training images to calculate phi
+                Debug.Log(eigenVectors[n].Size());
                 eigenSingle = eigenVectors[n].RowRange(i, i + 1);
                 Mat temp = (currentMeanDiff[n] * eigenSingle);
                 phi[n] += eigenSingle * temp;

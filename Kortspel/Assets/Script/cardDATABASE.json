@@ -8,7 +8,7 @@
       "tribe": "Vine",
       "mana": 2,
       "description": "",
-      "path": "Images/VineSkeleton",
+      "path": "Images/SkeletonPuppet",
       "triggers": "cardOnPlay,trigger2",
       "keywords": "changePlayerMana,keyword2"
     },
@@ -53,7 +53,7 @@
       "type": "spell",
       "mana": 1,
       "description": "This is a spell used for testing and showing what a JSON file with mutiple cards look like. It has no special abilities",
-      "path": "Images/Spell",
+      "path": "Images/LifeCrystal",
       "triggers": "trigger1,trigger2",
       "keywords": "keyword1,keyword2"
     }
