@@ -8,8 +8,9 @@
       "tribe": "Vine",
       "mana": 2,
       "description": "",
-      "keywords": "",
-      "path": "Images/VineSkeleton"
+      "path": "Images/VineSkeleton",
+      "triggers": "cardOnPlay,trigger2",
+      "keywords": "changePlayerMana,keyword2"
     },
     {
       "name": "Vine Slinger",
@@ -19,8 +20,9 @@
       "tribe": "Vine",
       "mana": 2,
       "description": "",
-      "keywords": "",
-      "path": "Images/VineSlinger"
+      "path": "Images/VineSlinger",
+      "triggers": "cardOnPlay,trigger2",
+      "keywords": "keyword1,keyword2"
     },
     {
       "name": "Vine Sprout",
@@ -30,8 +32,9 @@
       "tribe": "Vine",
       "mana": 1,
       "description": "",
-      "keywords": "",
-      "path": "Images/VineSprout"
+      "path": "Images/VineSprout",
+      "triggers": "cardOnPlay,opponentPlayCard",
+      "keywords": "changePlayerMana,keyword2"
     },
     {
       "name": "Robin Stick",
@@ -41,15 +44,18 @@
       "tribe": "Stick",
       "mana": 1,
       "description": "He a robin and a stick",
-      "keywords": "",
-      "path": "Images/RobinStick"
+      "path": "Images/RobinStick",
+      "triggers": "opponentPlayCard,trigger2",
+      "keywords": "keyword1,keyword2"
     },
     {
       "name": "Test Spell",
       "type": "spell",
       "mana": 1,
       "description": "This is a spell used for testing and showing what a JSON file with mutiple cards look like. It has no special abilities",
-      "path":  "Images/Spell"
+      "path": "Images/Spell",
+      "triggers": "trigger1,trigger2",
+      "keywords": "keyword1,keyword2"
     }
   ]
 }

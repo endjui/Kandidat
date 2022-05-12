@@ -84,18 +84,115 @@ public class SpawnCard : MonoBehaviour
             // Check if Player 1 is in Attack phase, if not, let the player scan a card
             if (Game.activePlayers[0].getPlayerPhase().text != "Attack")
             {
-                //Spawns the card being scanned if the player has enough avilable Mana and there are available zones
-                spawnCard(matchCard(scanner.matchImage(webCam, cardsInJson.cardList)), Game.activePlayers[0], zonesP1);
+                Card cardToBeSpawned = matchCard(scanner.matchImage(webCam, cardsInJson.cardList));
+
+                // Check if there is available mana
+                if (cardToBeSpawned.getCardHP() != -1 && (Game.activePlayers[0].getAvailableMana() - cardToBeSpawned.getCardMana()) >= 0)
+                {
+                    // Loop through the card to be spawneds abilites
+                    for (int i = 0; i < cardToBeSpawned.getAbilities().Count; i++)
+                    {
+                        // Check if the current ability has cardOnPlay trigger
+                        if (cardToBeSpawned.getAbility(i).getTrigger() == "cardOnPlay")
+                        {
+                            // Call cardTriggered for the ability
+                            cardToBeSpawned.getAbility(i).cardTriggered(Game.activePlayers[0], Game.activePlayers[1], i);
+                            Debug.Log("CardOnPlay was triggered!");
+                        }
+                    }
+                    //Spawns the card being scanned if the player has enough avilable Mana and there are available zones
+                    spawnCard(cardToBeSpawned, Game.activePlayers[0], zonesP1);
+
+                    // Loop through opponents cards
+                    for (int i = 0; i < Game.activePlayers[1].getCards().Count; i++)
+                    {
+                        // Check if zone is empty
+                        if (Game.activePlayers[1].getCard(i) != null)
+                        {
+                            Creature dummyCreature = Game.activePlayers[1].getCard(i).GetComponent<Creature>();
+                            Card dummyCard = new Card();
+                            // Find cards that the opponent has in play
+                            foreach (Card thisCard in cardsInJson.cardList)
+                            {
+                                // If a match from the CardsInJason is found, put it in dummyCard
+                                if (dummyCreature.getCreatureName() == thisCard.getCardName())
+                                {
+                                    dummyCard = matchCard(thisCard.getPath());
+                                }
+                            }
+                            // Loop through one of the opponent card abilities
+                            for (int j = 0; j < dummyCard.getAbilities().Count; j++)
+                            {
+                                // Check if current trigger = opponentPlayCard
+                                if (dummyCard.getAbility(j).getTrigger() == "opponentPlayCard")
+                                {
+                                    // Call cardTriggered for the ability to be triggered
+                                    dummyCard.getAbility(j).cardTriggered(Game.activePlayers[1], Game.activePlayers[0], i);
+                                    Debug.Log("opponentPlayCard was triggered!");
+                                }
+                            }
+                        }
+                    }
+                }
             }
          }
+
         //Check if Player2 is active.
         else if (Game.activePlayers[1].getIsActive())
         {
             // Check if Player 2 is in Attack phase, if not, let the player scan a card
             if (Game.activePlayers[1].getPlayerPhase().text != "Attack")
             {
-                //Spawns the card being scanned if the player has enough avilable Mana and there are available zones
-                spawnCard(matchCard(scanner.matchImage(webCam, cardsInJson.cardList)), Game.activePlayers[1], zonesP2);
+                Card cardToBeSpawned = matchCard(scanner.matchImage(webCam, cardsInJson.cardList));
+
+                // Check if there is available mana
+                if (cardToBeSpawned.getCardHP() != -1 && (Game.activePlayers[1].getAvailableMana() - cardToBeSpawned.getCardMana()) >= 0)
+                {
+                    // Loop through the card to be spawneds abilites
+                    for (int i = 0; i < cardToBeSpawned.getAbilities().Count; i++)
+                    {
+                        // Check if the current ability has cardOnPlay trigger
+                        if (cardToBeSpawned.getAbility(i).getTrigger() == "cardOnPlay")
+                        {
+                            // Call cardTriggered for the ability
+                            cardToBeSpawned.getAbility(i).cardTriggered(Game.activePlayers[1], Game.activePlayers[0], i);
+                            Debug.Log("CardOnPlay was triggered!");
+                        }
+                    }
+                    //Spawns the card being scanned if the player has enough avilable Mana and there are available zones
+                    spawnCard(cardToBeSpawned, Game.activePlayers[1], zonesP2);
+
+                    // Loop through opponents cards
+                    for (int i = 0; i < Game.activePlayers[0].getCards().Count; i++)
+                    {
+                        // Check if zone is empty
+                        if (Game.activePlayers[0].getCard(i) != null)
+                        {
+                            Creature dummyCreature = Game.activePlayers[0].getCard(i).GetComponent<Creature>();
+                            Card dummyCard = new Card();
+                            // Find cards that the opponent has in play
+                            foreach (Card thisCard in cardsInJson.cardList)
+                            {
+                                // If a match from the CardsInJason is found, put it in dummyCard
+                                if (dummyCreature.getCreatureName() == thisCard.getCardName())
+                                {
+                                    dummyCard = matchCard(thisCard.getPath());
+                                }
+                            }
+                            // Loop through one of the opponent card abilities
+                            for (int j = 0; j < dummyCard.getAbilities().Count; j++)
+                            {
+                                // Check if current trigger = opponentPlayCard
+                                if (dummyCard.getAbility(j).getTrigger() == "opponentPlayCard")
+                                {
+                                    // Call cardTriggered for the ability to be triggered
+                                    dummyCard.getAbility(j).cardTriggered(Game.activePlayers[0], Game.activePlayers[1], i);
+                                    Debug.Log("opponentPlayCard was triggered!");
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -125,8 +222,10 @@ public class SpawnCard : MonoBehaviour
                                      card.getAttack(),
                                      card.getTribe(),
                                      card.getDescription(),
+                                     card.getPath(),
+                                     card.getTriggers(),
                                      card.getKeywords(),
-                                     card.getPath());
+                                     card.getPowers());
             }
         }
         //Card was not found

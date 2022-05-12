@@ -47,24 +47,29 @@ public class Creature : MonoBehaviour
         DescriptionTEXT.text = "" + description;
         ManaTEXT.text = "" + mana;
     }
-    
+
     //Get the name of the creature
     public string getCreatureName() { return name; }
-    
+
     //Get the mana cost of the creature
     public int getCreatureMana() { return mana; }
-    
+
     //Get the creatures HP
     public int getCreatureHP() { return hp; }
-    
+
     //Get the Attack power of the creature
     public int getAttack() { return attack; }
-    
+
     //Get the creatures tribe
     public string getTribe() { return tribe; }
 
     //Get the creatures description
     public string getDescription() { return description; }
+    public void getCard()
+    {
+        //Get information from the database about the specific card.
+
+    }
 
     //Get the variable hasAttacked
     public bool getHasAttacked() { return hasAttacked; }

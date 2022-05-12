@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Timer: MonoBehaviour
+public class Timer : MonoBehaviour
 {
     //UI buttons for Player 1 and Player 2
     public Button player1button;
@@ -11,11 +11,12 @@ public class Timer: MonoBehaviour
 
     //Variables for how long every phase should be.
     //30.f = 30 seconds
-    public float timeRemaining = 30.0f;
-    public float resetvalue = 30.0f;
+    public float timeRemaining;
+    public float resetvalue;
 
     void Start()
     {
+        
         // Player 1 end button
         Button btn1 = player1button.GetComponent<Button>();
         btn1.onClick.AddListener(Player1_endButtonTask);
@@ -24,7 +25,11 @@ public class Timer: MonoBehaviour
         Button btn2 = player2button.GetComponent<Button>();
         btn2.onClick.AddListener(Player2_endButtonTask);
     }
-
+    //gets called by Game with starting time set by Player in menu
+    public void setTime(float arg){
+        timeRemaining = arg;
+        resetvalue = arg;
+    }
     void Player1_endButtonTask()
     {
         // If Player 1 is active, let them press the button and reset the timer, otherwise do nothing

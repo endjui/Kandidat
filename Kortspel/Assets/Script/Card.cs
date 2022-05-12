@@ -1,4 +1,6 @@
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Card
 {
@@ -25,18 +27,27 @@ public class Card
     [JsonProperty("description")]
     private string description;
 
+    [JsonProperty("path")]
+    private string path;
+
+    [JsonProperty("triggers")]
+    private string triggers;
+
     [JsonProperty("keywords")]
     private string keywords;
 
-    [JsonProperty("path")]
-    private string path;
+    [JsonProperty("powers")]
+    private string powers;
 
     //A boolean for if the card has attack this round or not
     //If == True => card has attacked this round
     private bool hasAttacked;
 
+    // List of abilities for the card
+    private List<Ability> abilities = new List<Ability>();
+
     //Constructor that sets the variables
-    public Card(string _name, string _type, int _mana, int _hp, int _attack, string _tribe, string _description, string _keywords, string _path)
+    public Card(string _name, string _type, int _mana, int _hp, int _attack, string _tribe, string _description, string _path, string _triggers, string _keywords, string _powers)
     {
         name = _name;
         type = _type;
@@ -46,8 +57,12 @@ public class Card
         tribe = _tribe;
         description = _description;
         hasAttacked = false;
-        keywords = _keywords;
         path = _path;
+        triggers = _triggers;
+        keywords = _keywords;
+        powers = _powers;
+
+        setAbilities(_triggers, _keywords, _powers);
     }
 
     //Default constructor. Sets the mana,hp & attack to -1
@@ -61,8 +76,10 @@ public class Card
         tribe = "";
         description = "";
         hasAttacked = false;
-        keywords = "";
         path = "";
+        triggers = "";
+        keywords = "";
+        powers = "";
     }
 
     //Get the name of the card
@@ -81,13 +98,22 @@ public class Card
     public string getDescription() { return description; }
     //Get the HasAttacked boolean
     public bool getHasAttacked() { return hasAttacked; }
-    //Get the cards keywords
-    public string getKeywords() { return keywords; }
     //Get the cards path
     public string getPath() { return path; }
+    //Get the cards triggers
+    public string getTriggers() { return triggers; }
+    //Get the cards keywords
+    public string getKeywords() { return keywords; }
+    //Get the cards powers
+    public string getPowers() { return powers; }
+    //Get the cards abilities
+    public List<Ability> getAbilities() { return abilities; }
+    //Get a specific ability from a card
+    public Ability getAbility(int i) { return abilities[i]; }
+    
 
     //Sets the values of the card to specified input
-    public void setValues(string _name, string _type, int _mana, int _hp, int _attack, string _tribe, string _description, string _keywords, string _path)
+    public void setValues(string _name, string _type, int _mana, int _hp, int _attack, string _tribe, string _description, string _path, string _triggers, string _keywords, string _powers)
     {
         name = _name;
         type = _type;
@@ -96,8 +122,12 @@ public class Card
         attack = _attack;
         tribe = _tribe;
         description = _description;
-        keywords = _keywords;
         path = _path;
+        triggers = _triggers;
+        keywords = _keywords;
+        powers = _powers;
+
+        setAbilities(_triggers, _keywords, _powers);
     }
 
     //Set the cards attack variable
@@ -116,5 +146,27 @@ public class Card
             hasAttacked = false;
         }
         else hasAttacked = true;
+    }
+
+    //Set the abilities for the card by splitting the database strings
+    public void setAbilities(string _triggers, string _keywords, string _powers)
+    {
+        // Split the keywords and triggers into multiple strings
+        // Split when encountering a comma (',')
+        char splitWhen = ',';
+        string[] splitTriggers = _triggers.Split(splitWhen);
+        string[] splitKeywords = _keywords.Split(splitWhen);
+        string[] splitPowers = _powers.Split(splitWhen);
+
+        // Triggers and keywords need to be the same length
+        // If there is more then one keyword that have the same trigger, repeat the trigger in the list
+        Debug.Log(splitTriggers.Length);
+        for (int i = 0; i < splitTriggers.Length; i++)
+        {
+            abilities.Add(new Ability(splitTriggers[i], splitKeywords[i], splitPowers[i]));
+            Debug.Log("Ability added with trigger: " + abilities[i].getTrigger());
+            Debug.Log("With the keyword: " + abilities[i].getKeyword());
+            Debug.Log("And the power: " + abilities[i].getPower());
+        }
     }
 }

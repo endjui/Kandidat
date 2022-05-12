@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     const int maxCards = 5;
 
     //A list contining all of the players cards.
-    public List<GameObject> playerCards = new List<GameObject>(); 
+    public List<GameObject> playerCards = new List<GameObject>();
 
     //Players HP
     int hp;
@@ -53,34 +53,40 @@ public class Player : MonoBehaviour
     {
         hp = _hp;
         manaLimit = _mana;
+        availableMana = _mana;
         isActive = _isActive;
         playerName = _playerName;
         playerPhase = _playerPhase;
         playerEndTurnButton_text = _playerButton;
         textTimer = _playerTimer;
-
+        hasChanged = true;
         //Create a dummy gameobject to initilaze the PlayerCards list
         //Every gamobject is set to null
         GameObject dummyObject = null;
 
-         for(int counter = 0; counter < maxCards; counter++)
-         {
-             playerCards.Add(dummyObject);
-         }
+        for (int counter = 0; counter < maxCards; counter++)
+        {
+            playerCards.Add(dummyObject);
+        }
     }
 
     //Get if the players is active or not
-    public bool getIsActive(){ return isActive;}
+    public bool getIsActive() { return isActive; }
 
     //Get maxCards allowed on the field
-    public int getMaxCards() { return maxCards;}
+    public int getMaxCards() { return maxCards; }
+
+    public List<GameObject> getCards() { return playerCards; }
+
+    public GameObject getCard(int i) { return playerCards[i]; }
 
     //set players isActive variable
-    public void setIsActive(bool arg){ isActive = arg;}
+    public void setIsActive(bool arg) { isActive = arg; }
 
     //Set the players current HP
     //set hasChanged = true,  to update UI
-    public void setPlayerHP(int arg){
+    public void setPlayerHP(int arg)
+    {
         hp = arg;
         hasChanged = true;
     }
@@ -94,10 +100,10 @@ public class Player : MonoBehaviour
     }
 
     //Get the players availableMana
-    public int getAvailableMana(){ return availableMana;}
+    public int getAvailableMana() { return availableMana; }
 
     //Get the players current HP
-    public int getPlayerHP(){return hp;}
+    public int getPlayerHP() { return hp; }
 
     //Set a manaLimit
     public void setManaLimit(int arg)
@@ -107,22 +113,22 @@ public class Player : MonoBehaviour
     }
 
     //Get the players manaLimit
-    public int getManaLimit(){return manaLimit;}
+    public int getManaLimit() { return manaLimit; }
 
     //Set the players current phase
-    public void setPlayerPhase(String arg){playerPhase.text = arg;}
+    public void setPlayerPhase(String arg) { playerPhase.text = arg; }
 
     //Get the playesr current phase
-    public Text getPlayerPhase(){return playerPhase;}
+    public Text getPlayerPhase() { return playerPhase; }
 
     //Set the player Endturn button text
-    public void setPlayerEndTurnButton_text(String arg){playerEndTurnButton_text.text = arg;}
+    public void setPlayerEndTurnButton_text(String arg) { playerEndTurnButton_text.text = arg; }
 
     //Set the players turnCounter
-    public void setPlayerTurnCounter(int arg){playerTurnCounter = arg;}
+    public void setPlayerTurnCounter(int arg) { playerTurnCounter = arg; }
 
     //Set the timers text
-    public void setTimer(String arg){textTimer.text = arg;}
+    public void setTimer(String arg) { textTimer.text = arg; }
 
     //Get the first none occupide zone
     //Will return the first zone available in the PlayerCards list
@@ -147,13 +153,13 @@ public class Player : MonoBehaviour
     //(Sets the boolean to false for every card)
     public void resetHasAttacked()
     {
-        for(int i = 0; i < maxCards; i++)
+        for (int i = 0; i < maxCards; i++)
         {
-            if(playerCards[i] != null)
+            if (playerCards[i] != null)
             {
-                if(playerCards[i].GetComponent<Creature>().getHasAttacked())
+                if (playerCards[i].GetComponent<Creature>().getHasAttacked())
                 {
-                     playerCards[i].GetComponent<Creature>().setHasAttacked();
+                    playerCards[i].GetComponent<Creature>().setHasAttacked();
                 }
             }
         }
