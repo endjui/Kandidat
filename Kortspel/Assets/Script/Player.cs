@@ -95,8 +95,10 @@ public class Player : MonoBehaviour
     //set hasChanged = true,  to update UI
     public void setAvailableMana(int arg)
     {
-        availableMana = arg;
-        hasChanged = true;
+        
+            availableMana = arg;
+            hasChanged = true;
+        
     }
 
     //Get the players availableMana
@@ -108,8 +110,12 @@ public class Player : MonoBehaviour
     //Set a manaLimit
     public void setManaLimit(int arg)
     {
-        manaLimit = arg;
-        hasChanged = true;
+        if (arg < 11)//Buggfix, updaterar ej mana om den överskrider 10
+        {
+            manaLimit = arg;
+            hasChanged = true;
+        }
+    
     }
 
     //Get the players manaLimit
@@ -122,7 +128,7 @@ public class Player : MonoBehaviour
     public Text getPlayerPhase() { return playerPhase; }
 
     //Set the player Endturn button text
-    public void setPlayerEndTurnButton_text(String arg) { playerEndTurnButton_text.text = arg; }
+    public void setPlayerEndTurnButton_text(String arg) {playerEndTurnButton_text.text = arg; }
 
     //Set the players turnCounter
     public void setPlayerTurnCounter(int arg) { playerTurnCounter = arg; }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering.PostProcessing;
+using TMPro;
 
 public class Menu : MonoBehaviour
 {
@@ -10,12 +12,20 @@ public class Menu : MonoBehaviour
         private static float startMana;
         private static float startTimer;
         private static bool tutorialActivation;
+        private bool changeScene;
+        private float timer;
+        public GameObject UI;
+        public PostProcessVolume blurvolume;
+        public Camera gameCamera;
         public Text HPTEXTA;
         public Text ManaTEXTA;
         public Text TimerTEXTA;
         public Text HPTEXTB;
         public Text ManaTEXTB;
         public Text TimerTEXTB;
+        public TextMeshProUGUI countdown1;
+        public TextMeshProUGUI countdown2;
+    //private canvas = GetCOmponent
     public void ReadyCheck()
     {
         GameObject player_1_is_ready = GameObject.Find("Checkmark_1");
@@ -23,14 +33,17 @@ public class Menu : MonoBehaviour
         //Startar spelet om bägge checkmarksen är aktiva
         if (player_1_is_ready && player_2_is_ready)
         {
-            PlayGame();
+            UI.SetActive(false); //tar bort all ui i meny scenen
+            Debug.Log("Game starts!");
+            changeScene = true; //för smooth transition i update
+            Debug.Log(changeScene);
         }
     }
     public void PlayGame()
     {
         Debug.Log("Game starts!");
         //Byter scen från meny till spelet
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        
     }
     public void QuitGame()
     {
@@ -80,16 +93,43 @@ public class Menu : MonoBehaviour
     {
         return tutorialActivation;
     }
+    /*
+    public void wtf()
+    {
+        gameObject.SetActive(false);
+        changeScene = true;
+        for(int i = 0; i < 100; i++)
+        {
+            blurvolume.weight = blurvolume.weight - 1.0f;
+            gameCamera.fieldOfView = gameCamera.fieldOfView - 1.0f;
+        }
+        //blurvolume.weight = 0.0f;
+        //gameCamera.fieldOfView = 70.0f;
+    }*/
     void Start()
     {
+        
         startHP = 30;
         startMana = 1;
         startTimer = 15;
+        timer = 3.0f;
         //kan behövas för grafik och musik
     }
 
     void Update()
     {
+        if(changeScene == true)
+        {
+            timer -= Time.deltaTime;
+            blurvolume.weight = blurvolume.weight - 0.001f;
+            gameCamera.fieldOfView = gameCamera.fieldOfView - 0.1f;
+            countdown1.text = (""+((int)timer+1));
+            countdown2.text = ("" +((int)timer+1));
+        }
+        if(timer <= 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
         //kan ev. behövas för grafik och musik
     }
 }

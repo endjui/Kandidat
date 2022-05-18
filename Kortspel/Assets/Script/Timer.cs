@@ -8,11 +8,12 @@ public class Timer : MonoBehaviour
     //UI buttons for Player 1 and Player 2
     public Button player1button;
     public Button player2button;
-
+    public Image circle;
     //Variables for how long every phase should be.
     //30.f = 30 seconds
     public float timeRemaining;
     public float resetvalue;
+    public float percent;
 
     void Start()
     {
@@ -47,9 +48,14 @@ public class Timer : MonoBehaviour
             timeRemaining = resetvalue;
         }
     }
-
+    void updateCircle(float arg)
+    {
+        percent = arg / resetvalue;
+        circle.fillAmount = percent;
+    }
     void Update()
     {
+        updateCircle(timeRemaining);
         if (timeRemaining > 0.0f)
         {
             // Countdown timer
