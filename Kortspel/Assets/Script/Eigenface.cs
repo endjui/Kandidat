@@ -19,7 +19,7 @@ unsafe public class Eigenface : MonoBehaviour
         numberOfCards = images.Length;
         numberOfTraining = new int[numberOfCards];
         
-        
+
         Resources.UnloadUnusedAssets();
 
 
@@ -43,7 +43,7 @@ unsafe public class Eigenface : MonoBehaviour
 
             if (numberOfTraining[n] < 2) continue;
 
-            scaledImageSize = new Size(images[n][0].width * 0.05, images[n][0].height * 0.05);
+            scaledImageSize = new Size(images[n][1].width * 0.05, images[n][1].height * 0.05);
             eigenVectorMultiplier = new Size(scaledImageSize.Width * scaledImageSize.Height, 1);
 
             for (int i = 1; i < numberOfTraining[n]; ++i)

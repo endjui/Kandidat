@@ -10,7 +10,7 @@
       "attack": 6,
       "hp": 5,
       "description": "Player regain 10 HP and regain 3 Mana when the Player is below 5 HP",
-      "path": "Images/Royal_flame_card",
+      "path": "Images/RoyalFlame",
       "triggers": "underHP,underHP",
       "keywords": "changePlayerHP,changePlayerMana",
       "powers": "10,3"
@@ -23,7 +23,7 @@
       "attack": 5,
       "hp": 4,
       "description": "If taken damage deal 2 damage to the creature that attacked",
-      "path": "Images/Flame_stag_card",
+      "path": "Images/FlameStag",
       "triggers": "cardIsAttacked",
       "keywords": "changeOneCreatureHP",
       "powers": "-2"
@@ -36,7 +36,7 @@
       "attack": 2,
       "hp": 1,
       "description": "Player fets 1 extra mana next turn",
-      "path": "Images/Flame_fawn_card",
+      "path": "Images/FlameFawn",
       "triggers": "cardIsAttacked",
       "keywords": "changePlayerMana",
       "powers": "1"
@@ -49,7 +49,7 @@
       "attack": 1,
       "hp": 1,
       "description": "",
-      "path": "Images/Bonfire_frog",
+      "path": "Images/BonfireFrog",
       "triggers": "",
       "keywords": "",
       "powers": ""
@@ -108,19 +108,6 @@
       "powers": "1"
     },
     {
-      "name": "Fly Amanita",
-      "type": "creature",
-      "tribe": "Fungi",
-      "mana": 3,
-      "attack": 1,
-      "hp": 3,
-      "description": "Draw 1 card",
-      "path": "Images/FlyAmanita",
-      "triggers": "cardOnPlay",
-      "keywords": "drawNewCards",
-      "powers": "1"
-    },
-    {
       "name": "Sneaky Bolete",
       "type": "creature",
       "tribe": "Fungi",
@@ -128,19 +115,6 @@
       "attack": 2,
       "hp": 1,
       "description": "Deaö 2 damage to opponet",
-      "path": "Images/SneaktBolete",
-      "triggers": "cardOnPlay",
-      "keywords": "changeOneCreatureHP",
-      "powers": "2"
-    },
-    {
-      "name": "Sneaky Bolete",
-      "type": "creature",
-      "tribe": "Fungi",
-      "mana": 2,
-      "attack": 2,
-      "hp": 1,
-      "description": "Deal 2 damage to opponet",
       "path": "Images/SneaktBolete",
       "triggers": "cardOnPlay",
       "keywords": "changeOneCreatureHP",
@@ -246,7 +220,7 @@
       "attack": 5,
       "hp": 6,
       "description": "When Shield Monolith is summoned, grant all allies on the field 2 extra HP",
-      "path": "Images/GeneralEarthworm",
+      "path": "Images/ShieldMonolith",
       "triggers": "onPlay",
       "keywords": "changeAllCreaturesHP",
       "powers": "2"
@@ -260,7 +234,7 @@
       "attack": 1,
       "hp": 1,
       "description": "When killed all birds on the field gets 1 extra HP",
-      "path": "Images/Blackbird_knight_kort",
+      "path": "Images/BlackbirdKnight",
       "triggers": "creatureKilled",
       "keywords": "changeAllTribeAttack",
       "powers": "1"
@@ -273,7 +247,7 @@
       "attack": 1,
       "hp": 1,
       "description": "Copies stats of the opponent creature",
-      "path": "Images/Parrot_shaman_card",
+      "path": "Images/ParrotShaman",
       "triggers": "cardOnPlay, cardOnPlay",
       "keywords": "changeThisCreatureHP,changeThisCreatureAttack",
       "powers": "-99,-99"
@@ -286,20 +260,20 @@
       "attack": 3,
       "hp": 3,
       "description": "Deals 4 damage to the creature with the lowest HP on the field",
-      "path": "Images/Parrot_shaman_card",
+      "path": "Images/OwlHunter",
       "triggers": "cardOnPlay",
       "keywords": "changeOneCreatureHP",
       "powers": "-4"
     },
     {
-      "name": "Saggitarius",
+      "name": "Sagittarius",
       "type": "creature",
       "tribe": "Bird",
       "mana": 2,
       "attack": 1,
       "hp": 3,
       "description": "When attacked opponent's creature loses 1 attack point",
-      "path": "Images/Parrot_shaman_card",
+      "path": "Images/Sagittarius",
       "triggers": "cardIsAttacked",
       "keywords": "changeOneOpponentCreatureAttack",
       "powers": "-1"
@@ -312,7 +286,7 @@
       "attack": 3,
       "hp": 1,
       "description": "Can only take damage from abilities",
-      "path": "Images/Parrot_shaman_card",
+      "path": "Images/BeardedVulture",
       "triggers": "whenCardIsAttacked",
       "keywords": "changeThisCreatureHP",
       "powers": "-99"
@@ -326,7 +300,7 @@
       "attack": 4,
       "hp": 4,
       "description": "Soul stealer: Deal 1 damage to each enemy",
-      "path": "Images/Blackbird_knight_kort",
+      "path": "Images/StickKing",
       "triggers": "cardOnPlay",
       "keywords": "changeAllOpponentCreaturesHP",
       "powers": "-1"
@@ -339,7 +313,7 @@
       "attack": 3,
       "hp": 2,
       "description": "Manaflow: Recieve 2 extra mana this round",
-      "path": "Images/Blackbird_knight_kort",
+      "path": "Images/MerlinStick",
       "triggers": "cardOnPlay",
       "keywords": "changePlayerMana",
       "powers": "2"
@@ -352,7 +326,7 @@
       "attack": 2,
       "hp": 1,
       "description": "Steal from the poor: Steal a card from the enenmy opponents hand",
-      "path": "Images/Blackbird_knight_kort",
+      "path": "Images/RobinStick",
       "triggers": "cardOnPlay",
       "keywords": "stealCards",
       "powers": "1"
@@ -365,7 +339,7 @@
       "attack": 1,
       "hp": 1,
       "description": "Kings rally: Remove 1 attack from a random enemy",
-      "path": "Images/Blackbird_knight_kort",
+      "path": "Images/ArthurStick",
       "triggers": "cardOnPlay",
       "keywords": "changeOneOpponentCreatureAttack",
       "powers": "-1"
@@ -378,24 +352,24 @@
       "tribe": "Flame",
       "mana": 3,
       "description": "All oponents creatures takes 2 damage",
-      "path": "Images/Wildfire_card",
+      "path": "Images/Wildfire",
       "triggers": "cardOnPlay",
       "keywords": "changeAllCreaturesHP",
       "powers": "-2"
     },
     {
-      "name": "Flame of Life",
+      "name": "Flame Of Life",
       "type": "spell",
       "tribe": "Flame",
       "mana": 3,
       "description": "Player regains 5 HP",
-      "path": "Images/Flame_of_life_card",
+      "path": "Images/FlameOfLife",
       "triggers": "cardOnPlay",
       "keywords": "changePlayerHP",
       "powers": "5"
     },
     {
-      "name": "Spark of the Future",
+      "name": "Spark Of The Future",
       "type": "spell",
       "tribe": "Flame",
       "mana": 1,
@@ -407,23 +381,12 @@
     },
     // --------------------- Flame --------------------------
     {
-      "name": "Healthy Rain",
+      "name": "Healing Rain",
       "type": "spell",
       "tribe": "Fungi",
       "mana": 3,
       "description": "Give all your creatures 3 extra HP",
-      "path": "Images/HealthyRain",
-      "triggers": "cardOnPlay",
-      "keywords": "changeAllCreaturesDefense",
-      "powers": "3"
-    },
-    {
-      "name": "Healthy Rain",
-      "type": "spell",
-      "tribe": "Fungi",
-      "mana": 3,
-      "description": "Give all your creatures 3 extra HP",
-      "path": "Images/HealthyRain",
+      "path": "Images/HealingRain",
       "triggers": "cardOnPlay",
       "keywords": "changeAllCreaturesDefense",
       "powers": "3"
@@ -503,7 +466,7 @@
       "tribe": "Bird",
       "mana": 4,
       "description": "Opponent cannot attack next turn.",
-      "path": "Images/Nightingalessong",
+      "path": "Images/NightingalesSong",
       "triggers": "onPlay",
       "keywords": "opponentCantAttack",
       "powers": "1"
@@ -514,30 +477,30 @@
       "tribe": "Bird",
       "mana": 2,
       "description": "Draw 2 cards.",
-      "path": "Images/hatchingeggs",
+      "path": "Images/HatchingOfEggs",
       "triggers": "onPlay",
       "keywords": "drawNewCards",
       "powers": "2"
     },
     // --------------------- Bird --------------------------
     {
-      "name": "Random flying arrow",
+      "name": "Random Flying Arrow",
       "type": "spell",
       "tribe": "Stick",
       "mana": 2,
       "description": "Deal 3 damage to the opponents HP.",
-      "path": "Images/Random_flying_arrow",
+      "path": "Images/RandomFlyingArrow",
       "triggers": "onPlay",
       "keywords": "changeOpponentHP",
       "powers": "-4"
     },
     {
-      "name": "Just a heart",
+      "name": "Just A Heart",
       "type": "spell",
       "tribe": "Stick",
       "mana": 2,
       "description": "Heal all friendly creatures +2 HP.",
-      "path": "Images/Just_a_heart",
+      "path": "Images/JustAHeart",
       "triggers": "onPlay",
       "keywords": "changeAllCreaturesHP",
       "powers": "2"
