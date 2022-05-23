@@ -77,8 +77,10 @@ public class SpawnCard : MonoBehaviour
             // Check if Player 1 is in Attack phase, if not, let the player scan a card
             if (Game.activePlayers[0].getPlayerPhase().text != "Attack")
             {
-                Card cardToBeSpawned = matchCard(scanner.matchImage(webCam, cardsInJson.cardList));
-
+                    
+                    //Card cardToBeSpawned = matchCard(scanner.matchImage(webCam, cardsInJson.cardList));
+                    Card cardToBeSpawned = matchCard("Images/RoyalFlame"); //testrad, kommentera denna och avkommentera ovan
+                
                 // Check if there is available mana
                 if (cardToBeSpawned.getCardHP() != -1 && (Game.activePlayers[0].getAvailableMana() - cardToBeSpawned.getCardMana()) >= 0)
                 {
@@ -136,7 +138,9 @@ public class SpawnCard : MonoBehaviour
             // Check if Player 2 is in Attack phase, if not, let the player scan a card
             if (Game.activePlayers[1].getPlayerPhase().text != "Attack")
             {
-                Card cardToBeSpawned = matchCard(scanner.matchImage(webCam, cardsInJson.cardList));
+                //Card cardToBeSpawned = matchCard(scanner.matchImage(webCam, cardsInJson.cardList));
+                Card cardToBeSpawned = matchCard("Images/RoyalFlame");//testrad, kommentera denna och avkommentera ovan
+                
 
                 // Check if there is available mana
                 if (cardToBeSpawned.getCardHP() != -1 && (Game.activePlayers[1].getAvailableMana() - cardToBeSpawned.getCardMana()) >= 0)
