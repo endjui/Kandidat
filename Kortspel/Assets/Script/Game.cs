@@ -28,17 +28,34 @@ public class Game : MonoBehaviour
     public Text player1_textTimer;
     public Text player2_textTimer;
 
+    //UI text for endscreen
+    public Text player1_victory;
+    public Text player2_victory;
+
     //To obtain values set by players in menu
     public Menu menu;
     public Timer timer;
     
-    //UI to show active player, covers opposite part of screen
+    //UI to show active player, covers opposite part of screen, 
+    //could be in a separate script but too lazy to move these
     public GameObject coverUI1;
     public GameObject coverUI2;
-    
+    public GameObject scanUI;
+    public GameObject attackUI1;
+    public GameObject attackUI2;
+    //All UI in the game 
+    public GameObject fullUI;
+
+    //Victory screen UI
+    public GameObject endUI;
+    //Endtime before program quits
+    private float waitTimer;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        waitTimer = 5.0f;
         //Gets the values set by the player from the menuscreen
         int startMana = menu.getMana();
         int startHP = menu.getHP();
@@ -74,13 +91,37 @@ public class Game : MonoBehaviour
         {
             coverUI1.SetActive(true);
             coverUI2.SetActive(false);
+            if (activePlayers[1].getPlayerPhase().text == "Attack")
+            {
+                attackUI2.SetActive(true);
+                scanUI.SetActive(false);
+
+            }
+            else
+            {
+                scanUI.SetActive(true);
+                attackUI1.SetActive(false);
+                attackUI2.SetActive(false);
+            }
         }
         else
         {
             coverUI1.SetActive(false);
             coverUI2.SetActive(true);
-        }
+            if (activePlayers[0].getPlayerPhase().text == "Attack")
+            {
+                attackUI1.SetActive(true);
+                scanUI.SetActive(false);
 
+            }
+            else
+            {
+                scanUI.SetActive(true);
+                attackUI2.SetActive(false);
+                attackUI1.SetActive(false);
+            }
+        }
+        
         //Is called every frame to check if any information about the player has changed.
         //If information has changed, update the UI or end the game.
         if (activePlayers[0].hasChanged)
@@ -91,7 +132,8 @@ public class Game : MonoBehaviour
 
             if(activePlayers[0].getPlayerHP() <= 0)
             {
-                Application.Quit();
+                VictoryScreen(false);
+                //Application.Quit();
             }
             activePlayers[0].hasChanged = false;
         }
@@ -104,14 +146,35 @@ public class Game : MonoBehaviour
 
             if (activePlayers[1].getPlayerHP() <= 0)
             {
-                Application.Quit();
-                
-                //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1); 
-
+                //Application.Quit();
+                VictoryScreen(true);
             }
             activePlayers[1].hasChanged = false;
         }
 
+    }
+    //Changes UI to show winner of the match, then resets all values and returns to menu
+    void VictoryScreen(bool arg)
+    {
+        waitTimer -= Time.deltaTime;
+        fullUI.SetActive(false);
+        endUI.SetActive(true);
+        if (arg == true)
+        {
+            
+            player1_victory.text = ("Victory! \n"+ ((int)waitTimer + 1));
+            player2_victory.text = ("Defeat!\n"+ ((int)waitTimer + 1));
+        }
+        else
+        {
+            player1_victory.text = ("Defeat!\n" + ((int)waitTimer + 1));
+            player2_victory.text = ("Victory!\n" + ((int)waitTimer + 1));
+        }
+        if(waitTimer <= 0)
+        {
+            activePlayers.Clear();
+            SceneManager.LoadScene(0);
+        }
     }
     //flips a coin on which players should start
     public float coinflip()

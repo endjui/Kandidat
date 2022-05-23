@@ -81,7 +81,9 @@ public class Player : MonoBehaviour
     public GameObject getCard(int i) { return playerCards[i]; }
 
     //set players isActive variable
-    public void setIsActive(bool arg) { isActive = arg; }
+    public void setIsActive(bool arg) { 
+        isActive = arg; 
+    }
 
     //Set the players current HP
     //set hasChanged = true,  to update UI

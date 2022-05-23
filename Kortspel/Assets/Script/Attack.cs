@@ -9,11 +9,12 @@ public class Attack : MonoBehaviour
     public Player opponent = null;
 
     //Button UI
-    public Button attackButton;
-
+    public GameObject attackButton;
+    private bool hasAttacked;
     // Start is called before the first frame update
     void Start()
     {
+        hasAttacked = false;
         //Initialize the button
         Button atkbtn = attackButton.GetComponent<Button>();
         atkbtn.onClick.AddListener(TaskOnClick);
@@ -25,6 +26,7 @@ public class Attack : MonoBehaviour
     //the opponents creature
     public void TaskOnClick()
     {
+        hasAttacked = true;
         //check if Player1 or Player2 is active
         //Set the variable current to the active player
         //and opponent to the inactive player
@@ -41,18 +43,20 @@ public class Attack : MonoBehaviour
 
         //Get the first zone that contains a creature which
         //can attack this round
-        int targetZone = GetZone(current);
-       
-        //Check if the zone is != -1 and the player is in attack phase
-        if (targetZone != -1 && current.getPlayerPhase().text == "Attack")
+        for (int i=0; i < current.getMaxCards(); i++)
         {
-            //AttackCreature and remove their creatures if their HP 0 =<
-            AttackCreature(current, opponent, targetZone);
-            RemoveCreature(current);
-            RemoveCreature(opponent);
+            int targetZone = GetZone(current);
+
+            //Check if the zone is != -1 and the player is in attack phase
+            if (targetZone != -1 && current.getPlayerPhase().text == "Attack")
+            {
+                //AttackCreature and remove their creatures if their HP 0 =<
+                AttackCreature(current, opponent, targetZone);
+                RemoveCreature(current);
+                RemoveCreature(opponent);
+            }
         }
-        
-        
+        attackButton.SetActive(false); //borde ta bort knappen efter man tryckt, men funkar inte i test, förmodligen på grund av error när man trycker
 
     }
 
