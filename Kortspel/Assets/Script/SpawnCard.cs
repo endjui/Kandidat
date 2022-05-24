@@ -270,7 +270,7 @@ public class SpawnCard : MonoBehaviour
                     //the zone the card was spawned in
                     p.playerCards[zone] = instantiatedCreature;
                 }
-                Debug.Log("Card to spawn was not of type Creature");
+                else { Debug.Log("Card to spawn was not of type Creature"); }
             }
             else
             {

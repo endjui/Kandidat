@@ -114,12 +114,31 @@ public class Attack : MonoBehaviour
             //Both creatures take damage
             target.setCreatureHP(target.getCreatureHP() - attacker.getAttack());
             attacker.setCreatureHP(attacker.getCreatureHP() - target.getAttack());
+
+            // Trigger
+            // Check if the opponent creature has the cardIsAttacked trigger - Might be a bug if creature is "dead" and then increase HP
+            foreach (Ability a in target.getCard().getAbilities())
+            {
+                if (a.getTrigger() == "cardIsAttacked") { a.cardTriggered(opponent, current, targetZone); }
+            }
+            // Check if the current player creature has the cardIsAttacking trigger - Might be a bug if creature is "dead" and then increase HP
+            foreach (Ability a in attacker.getCard().getAbilities())
+            {
+                if (a.getTrigger() == "cardIsAttacking") { a.cardTriggered(current, opponent, targetZone); }
+            }
         }
         else
         {
             //Attack the opponents current hp with the creatures Attack value
             opponent.setPlayerHP(opponent.getPlayerHP() - attacker.getAttack());
             Debug.Log("he attack HP, opponents hp is: " + opponent.getPlayerHP());
+
+            // Same trigger as above (it also triggers when attacking opponent HP)
+            // Check if the current player creature has the cardIsAttacking trigger - Might be a bug if creature is "dead" and then increase HP
+            foreach (Ability a in attacker.getCard().getAbilities())
+            {
+                if (a.getTrigger() == "cardIsAttacking") { a.cardTriggered(current, opponent, targetZone); }
+            }
         }
 
         //Change the attacking cards bool hasAttacked to true.
@@ -137,6 +156,12 @@ public class Attack : MonoBehaviour
             {
                 if (arg.playerCards[i].GetComponent<Creature>().getCreatureHP() <= 0)
                 {
+                    // Trigger -> if card dies
+                    foreach (Ability a in arg.playerCards[i].GetComponent<Creature>().getCard().getAbilities())
+                    {
+                        if (a.getTrigger() == "cardDies") { a.cardTriggered(arg, opponent, i); }
+                    }
+
                     //Destroy the game object in playerCards and set the value to null
                     Destroy(arg.playerCards[i]);
                     arg.playerCards[i] = null;

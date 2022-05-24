@@ -81,15 +81,31 @@ public class Player : MonoBehaviour
     public GameObject getCard(int i) { return playerCards[i]; }
 
     //set players isActive variable
-    public void setIsActive(bool arg) { 
-        isActive = arg; 
-    }
+    public void setIsActive(bool arg) { isActive = arg; }
 
     //Set the players current HP
     //set hasChanged = true,  to update UI
     public void setPlayerHP(int arg)
     {
         hp = arg;
+
+        // Trigger if player HP is under 5 HP and above 0 HP 
+        // Might trigger multiple times if the card with this ability is still on the board
+        if (hp < 5 && hp != 0)
+        {
+            int counter = 0;
+            foreach (GameObject g in playerCards)
+            {
+                foreach (Ability a in g.GetComponent<Creature>().getCard().getAbilities())
+                {
+                    // Can't reach opponent...
+                    // Sending this again (this must be fixed if the opponent should be affected by this trigger)
+                    if (a.getTrigger() == "underHP") { a.cardTriggered(this, this, counter); }
+                }
+                counter++;
+            }
+        }
+
         hasChanged = true;
     }
 
@@ -97,10 +113,8 @@ public class Player : MonoBehaviour
     //set hasChanged = true,  to update UI
     public void setAvailableMana(int arg)
     {
-        
-            availableMana = arg;
-            hasChanged = true;
-        
+        availableMana = arg;
+        hasChanged = true;
     }
 
     //Get the players availableMana

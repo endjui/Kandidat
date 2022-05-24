@@ -12,6 +12,7 @@ public class Creature : MonoBehaviour
     public int mana = 0;
     public int zone = 0;
     public bool hasAttacked = false;
+    public Card creatureCard;
 
     //UI Text for the Creature
     public Text HPTEXT;
@@ -33,6 +34,7 @@ public class Creature : MonoBehaviour
         description = card.getDescription();
         mana = card.getCardMana();
         hasAttacked = false;
+        creatureCard = card;
         setCardVisuals();
     }
 
@@ -65,10 +67,11 @@ public class Creature : MonoBehaviour
 
     //Get the creatures description
     public string getDescription() { return description; }
-    public void getCard()
+
+    public Card getCard()
     {
         //Get information from the database about the specific card.
-
+        return creatureCard;
     }
 
     //Get the variable hasAttacked
