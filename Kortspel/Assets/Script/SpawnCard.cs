@@ -77,7 +77,7 @@ public class SpawnCard : MonoBehaviour
         }
 
         //scanner = new Eigenface(webCam, images);
-        scanner = new Eigenface(images);
+        scanner = new Eigenface(ref images);
     }
 
     void TaskOnClick()
@@ -89,7 +89,7 @@ public class SpawnCard : MonoBehaviour
             if (Game.activePlayers[0].getPlayerPhase().text != "Attack")
             {
 
-                Card cardToBeSpawned = matchCard(scanner.matchImage(webCam, cardsInJson.cardList));
+                Card cardToBeSpawned = matchCard(scanner.matchImage(ref webCam, ref cardsInJson.cardList));
                 //Card cardToBeSpawned = matchCard("Images/RandomFlyingArrow");
 
                 // Check if there is available mana
@@ -149,7 +149,7 @@ public class SpawnCard : MonoBehaviour
             // Check if Player 2 is in Attack phase, if not, let the player scan a card
             if (Game.activePlayers[1].getPlayerPhase().text != "Attack")
             {
-                Card cardToBeSpawned = matchCard(scanner.matchImage(webCam, cardsInJson.cardList));
+                Card cardToBeSpawned = matchCard(scanner.matchImage(ref webCam, ref cardsInJson.cardList));
                 //Card cardToBeSpawned = matchCard("Images/RandomFlyingArrow");
 
                 // Check if there is available mana

@@ -6,21 +6,23 @@ unsafe public class Eigenface : MonoBehaviour
 
     // Class variables
     private Mat trainingImage;
+    private Mat currentWebCamTexture;
     private Mat[] mean;
     private Mat[] eigenVectors;
+    private Mat[] eigenValues;
+    private Mat[] phi;
+    private Mat[] currentMeanDiff;
+    private double[] result;
     private Size scaledImageSize;
     private Size eigenVectorMultiplier;
-    private int numberOfCards;
-    private int[] numberOfTraining;
+    private const int numberOfCards = 40;
+    private const int numberOfTraining = 11;
 
-    public Eigenface(Texture2D[][] images)
+    public Eigenface(ref Texture2D[][] images)
     {
         // Initialize sizes and constants
-        numberOfCards = images.Length;
-        numberOfTraining = new int[numberOfCards];
-        
-
-        Resources.UnloadUnusedAssets();
+        scaledImageSize = new Size(images[0][1].width * 0.04, images[0][1].height * 0.04);
+        eigenVectorMultiplier = new Size(scaledImageSize.Width * scaledImageSize.Height, 1);
 
 
         /*********************************************************
@@ -28,158 +30,70 @@ unsafe public class Eigenface : MonoBehaviour
         **********************************************************/
 
         // Initialize all matricies used for calculations
-        PCA[] pca = new PCA[numberOfCards];
+        //PCA[] pca = new PCA[numberOfCards];
+        Mat[] combinedTraining = new Mat[numberOfCards];
         eigenVectors = new Mat[numberOfCards];
         mean = new Mat[numberOfCards];
-        Mat[] combinedTraining = new Mat[numberOfCards];
+        phi = new Mat[numberOfCards];
+        currentMeanDiff = new Mat[numberOfCards];
+        result = new double[numberOfCards];
+        eigenValues = new Mat[numberOfCards];
+        trainingImage = new Mat();
+        currentWebCamTexture = new Mat();
 
-        Resources.UnloadUnusedAssets();
 
+        // Initialize Mat objects in arrays
+        for (int i = 0; i < numberOfCards; i++)
+        {
+            eigenVectors[i] = new Mat();
+            eigenValues[i] = new Mat();
+            mean[i] = new Mat();
+            combinedTraining[i] = new Mat();
+            phi[i] = Mat.Zeros(eigenVectorMultiplier, MatType.CV_32FC1);
+            result[i] = int.MaxValue;
+            currentMeanDiff[i] = new Mat();
+        }
 
         for (int n = 0; n < numberOfCards; ++n)
         {
-            combinedTraining[n] = new Mat();
-            numberOfTraining[n] = images[n].Length;
-
-            if (numberOfTraining[n] < 2) continue;
-
-            scaledImageSize = new Size(images[n][1].width * 0.05, images[n][1].height * 0.05);
-            eigenVectorMultiplier = new Size(scaledImageSize.Width * scaledImageSize.Height, 1);
-
-            for (int i = 1; i < numberOfTraining[n]; ++i)
+            for (int i = 1; i < numberOfTraining; ++i)
             {
+                // Convert image texture to Mat object
+                OpenCvSharp.Unity.TextureToMat(images[n][i]).CopyTo(trainingImage);
 
-                trainingImage = OpenCvSharp.Unity.TextureToMat(images[n][i]);
-
+                // Convert image to correct size and type
                 convertImage(ref trainingImage);
-                //// Resize the image so Unity allows us to allocate memory for the images
-                //trainingImage = trainingImage.Resize(scaledImageSize);
 
-                //// Grayscale image
-                //trainingImage = trainingImage.CvtColor(ColorConversionCodes.BGR2GRAY);
-
-                //// Convert to correct MatType
-                //trainingImage.ConvertTo(trainingImage, MatType.CV_64FC1);
-
-                //// Reshape images to once long column vector for PCA calculations
-                //reshapedImages = trainingImage.Reshape(0, trainingImage.Rows*trainingImage.Cols).Clone();
-                
                 // Combine all training images
-                combinedTraining[n].PushBack(trainingImage.T());
-
-                Resources.UnloadUnusedAssets();
+                combinedTraining[n].PushBack(trainingImage);
 
             }
-            
+
             // Calculate PCA(Principal Component Analysis) which gives mean values and eigenvectors
-            pca[n] = new PCA(combinedTraining[n].T(), new Mat(), PCA.Flags.DataAsCol);
-            eigenVectors[n] = pca[n].Eigenvectors; //.Normalize(255, 0, NormTypes.L2);
-            mean[n] = pca[n].Mean;
-            Resources.UnloadUnusedAssets();
-
-            //for (int i = 0; i < numberOfTraining; ++i)
-            //{
-            //    A[i] = reshapedImages[i] - averageImage; // Apply average image to all images
-            //}
-
-            //for(int i = 0; i < numberOfTraining; ++i)
-            //{
-            //    for(int j = 0; j < numberOfTraining; ++j)
-            //    {
-            //        L[n].PushBack(A[j].T() * A[i]);
-            //    }
-            //}
-
-            //L[n] = L[n].Resize(sizu);
-            //Debug.Log(L[n]);
-
-            //for (int i = 0; i < numberOfCards; ++i)
-            //{
-            //    Cv2.Eigen(L[n], eigenValues, eigenVectors);
-            //    Debug.Log(eigenVectors);
-            //    for (int k = 0; k < numberOfTraining; ++k)
-            //    {
-            //        eigenVectorsFinal[n] += eigenVectors.At<double>(k);
-            //    }
-            //}
-            
+            Cv2.PCACompute(combinedTraining[n], mean[n], eigenVectors[n]);
+            //pca[n] = new PCA(combinedTraining[n], new Mat(), PCA.Flags.DataAsRow);
+            //pca[n].Eigenvectors.Normalize(1, 0, NormTypes.MinMax).CopyTo(eigenVectors[n]);
+            //pca[n].Mean.CopyTo(mean[n]);
+            Cv2.Normalize(eigenVectors[n], eigenVectors[n], 1, 0, NormTypes.MinMax);
         }
 
-        // We use foreach here to access each Texture2D in images
-        //for (int i = 0; i < numberOfImages; ++i)
-        //{
-        //    // Convert from Texture2D to Mat
-        //    queryImage[i] = OpenCvSharp.Unity.TextureToMat(images[i]);
-
-
-        //    // Resize the image to the same size as webCam
-        //    queryImage[i] = queryImage[i].Resize(size);
-
-        //    // Grayscale image
-        //    queryImage[i] = queryImage[i].CvtColor(ColorConversionCodes.BGR2GRAY);
-
-        //    // Convert to correct MatType
-        //    queryImage[i].ConvertTo(queryImage[i], MatType.CV_64F);
-
-        //    averageImage += queryImage[i];
-
-        //}
-
-        /********************************************************
-        * Calculate Eigenvector and eigenvalues for all cards *
-        *********************************************************/
-
-        // Initialize Eigenvector(EV) to get the correct MatType
-        //Mat sum = Mat.Zeros(covarianceSize, MatType.CV_64F);
-
-        //// Calculate Eigenvector(EV)
-        //for (int i = 0; i < numberOfCards; ++i)
-        //{
-        //    sum += covariance[i];
-        //}
-        //EV = sum / numberOfCards;
-
-        //// Calculate the normalized eigenvalues of all images
-        //eigenImage = new Mat[numberOfCards];
-
-        //for (int i = 0; i < numberOfCards; ++i)
-        //{
-        //    tmp = covariance[i] - EV;
-        //    eigenImage[i] = tmp.Normalize(255 * 64, 0, NormTypes.L2);
-        //}
-        Resources.UnloadUnusedAssets();
-
+        System.GC.Collect();
+        System.GC.WaitForPendingFinalizers();
     }
 
-    public string matchImage(WebCamTexture webCam, Card[] allCards)
+    public string matchImage(ref WebCamTexture webCam, ref Card[] allCards)
     {
+        // Convert the WebCamTexture to Mat type
+        OpenCvSharp.Unity.TextureToMat(webCam).CopyTo(currentWebCamTexture);
+        
+        convertImage(ref currentWebCamTexture);
+        
+        euclidianDistance(ref currentWebCamTexture);
         
 
-    // Convert the WebCamTexture to Mat type
-        Mat currentWebCamTexture = OpenCvSharp.Unity.TextureToMat(webCam);
-
-        convertImage(ref currentWebCamTexture);
-        Resources.UnloadUnusedAssets();
-
-        //// Resize of image for comparasion, might not be needed
-        //currentWebCamTexture = currentWebCamTexture.Resize(scaledImageSize);
-
-        //// Gray scale image
-        //currentWebCamTexture = currentWebCamTexture.CvtColor(ColorConversionCodes.BGR2GRAY);
-
-        //// Convert to correct type for comparasion
-        //currentWebCamTexture.ConvertTo(currentWebCamTexture, MatType.CV_64FC1);
-
-        //// Reshape WebCamTexture for comparasion
-        //currentWebCamTexture = currentWebCamTexture.Reshape(0, currentWebCamTexture.Rows * currentWebCamTexture.Cols).Clone();
-
-        double[] result = euclidianDistance(currentWebCamTexture);
-        Resources.UnloadUnusedAssets();
-
         double min = result[0];
-        string path = "";
         int index = 0;
-        int minimumThreshold = 2600;
+        const int minimumThreshold = 2600;
 
         // Calculate the minimum distance and it's index
         for (int i = 0; i < numberOfCards; ++i)
@@ -194,71 +108,53 @@ unsafe public class Eigenface : MonoBehaviour
         // For debugging, can delete later
         Debug.Log("Minimum distance: " + min.ToString() + " Index: " + index.ToString());
 
-        
-        if(min < minimumThreshold)
+        if (min < minimumThreshold)
         {
             // Store the resulting path from the index
-            path = allCards[index].getPath();
+            return allCards[index].getPath();
         }
-
-        // Clean up memory of unused assets
-        Resources.UnloadUnusedAssets();
-
-        return path;
+        else
+        {
+            return "";
+        }
     }
 
     private void convertImage(ref Mat img)
     {
         // Resize image
-        img = img.Resize(scaledImageSize);
+        Cv2.Resize(img, img, scaledImageSize);
 
         // Gray scale image
-        img = img.CvtColor(ColorConversionCodes.BGR2GRAY);
+        Cv2.CvtColor(img, img, ColorConversionCodes.BGR2GRAY);
 
         // Convert to correct type for comparasion
-        img.ConvertTo(img, MatType.CV_64FC1);
+        img.ConvertTo(img, MatType.CV_32FC1);
 
         // Reshape WebCamTexture for comparasion
-        img = img.Reshape(0, img.Rows * img.Cols).Clone();
+        img.Reshape(0, img.Rows * img.Cols).CopyTo(img);
 
+        Cv2.Transpose(img, img);
     }
 
-    private double[] euclidianDistance(Mat tex)
+    private void euclidianDistance(ref Mat tex)
     {
-        Mat[] phi = new Mat[numberOfCards];
-        Mat[] currentMeanDiff = new Mat[numberOfCards];
-        Mat finalDiff;
-        double[] result = new double[numberOfCards];
-        Mat eigenSingle;
-
-
         // Calculate the euclidian distance to the eigenfaces
         for (int n = 0; n < numberOfCards; ++n)
         {
-            // initialize result incase we don't calculate anything
-            result[n] = int.MaxValue;
-            // if there are less than 2 images, we skip the current iteration
-            if (numberOfTraining[n] < 3) continue;
+            Cv2.Subtract(tex, mean[n], currentMeanDiff[n]);
 
-            // Calculate the difference between the WebCamTexture and the mean image for
-            currentMeanDiff[n] = tex - mean[n];
-            phi[n] = Mat.Zeros(eigenVectorMultiplier, MatType.CV_64FC1);
-            
-
-            for (int i = 1; i < numberOfTraining[n]-1; ++i)
+            for (int i = 0; i < numberOfTraining/2; ++i)
             {
+                
                 // Use the eigenvectors for the training images to calculate phi
-                Debug.Log(eigenVectors[n].Size());
-                eigenSingle = eigenVectors[n].RowRange(i, i + 1);
-                Mat temp = (currentMeanDiff[n] * eigenSingle);
-                phi[n] += eigenSingle * temp;
+                Cv2.Add(phi[n], (eigenVectors[n].RowRange(i, i + 1) * (currentMeanDiff[n].T() * eigenVectors[n].RowRange(i, i + 1))), phi[n]);
+                
             }
 
             // Get resulting euclidian distance
-            finalDiff = currentMeanDiff[n] - phi[n].T();
-            result[n] = finalDiff.Norm();
+            Cv2.Subtract(currentMeanDiff[n], phi[n], currentMeanDiff[n]);
+            result[n] = currentMeanDiff[n].Norm();
+            System.GC.Collect();
         }
-
-        return result;
     }
 }
