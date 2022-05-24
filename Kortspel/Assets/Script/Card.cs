@@ -39,15 +39,20 @@ public class Card
     [JsonProperty("powers")]
     private string powers;
 
+    [JsonProperty("image")]
+    private string image;
+
     //A boolean for if the card has attack this round or not
     //If == True => card has attacked this round
     private bool hasAttacked;
+
+    private Sprite artwork;
 
     // List of abilities for the card
     private List<Ability> abilities = new List<Ability>();
 
     //Constructor that sets the variables
-    public Card(string _name, string _type, int _mana, int _hp, int _attack, string _tribe, string _description, string _path, string _triggers, string _keywords, string _powers)
+    public Card(string _name, string _type, int _mana, int _hp, int _attack, string _tribe, string _description, string _path, string _triggers, string _keywords, string _powers, string _image)
     {
         name = _name;
         type = _type;
@@ -61,6 +66,9 @@ public class Card
         triggers = _triggers;
         keywords = _keywords;
         powers = _powers;
+
+        //Create sprite
+        artwork = Resources.Load<Sprite>(_image);
 
         setAbilities(_triggers, _keywords, _powers);
     }
@@ -110,10 +118,14 @@ public class Card
     public List<Ability> getAbilities() { return abilities; }
     //Get a specific ability from a card
     public Ability getAbility(int i) { return abilities[i]; }
-    
+
+    public Sprite getArtworkSprite(){return artwork;}
+
+    public string getImage() { return image;}
+
 
     //Sets the values of the card to specified input
-    public void setValues(string _name, string _type, int _mana, int _hp, int _attack, string _tribe, string _description, string _path, string _triggers, string _keywords, string _powers)
+    public void setValues(string _name, string _type, int _mana, int _hp, int _attack, string _tribe, string _description, string _path, string _triggers, string _keywords, string _powers, string _image)
     {
         name = _name;
         type = _type;
@@ -126,6 +138,9 @@ public class Card
         triggers = _triggers;
         keywords = _keywords;
         powers = _powers;
+
+        //Create sprite
+        artwork = Resources.Load<Sprite>(_image);
 
         setAbilities(_triggers, _keywords, _powers);
     }

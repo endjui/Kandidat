@@ -32,6 +32,10 @@ public class Game : MonoBehaviour
     public Text player1_victory;
     public Text player2_victory;
 
+    //Bools for win
+    bool player1win = false;
+    bool player2win = false;
+
     //To obtain values set by players in menu
     public Menu menu;
     public Timer timer;
@@ -50,13 +54,11 @@ public class Game : MonoBehaviour
     public GameObject endUI;
     //Endtime before program quits
     private float waitTimer;
-    private bool player1win;
-    private bool player2win;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
         waitTimer = 5.0f;
         //Gets the values set by the player from the menuscreen
         int startMana = menu.getMana();
@@ -74,12 +76,14 @@ public class Game : MonoBehaviour
         if (coinflip() <= 0.5f)
         {
             activePlayers[0].setIsActive(true);
+            activePlayers[0].setIsFirst(true);
             TurnSystem.firstUIChange(activePlayers[0], activePlayers[1]);
             Debug.Log("player1 will start");
         }
         else
         {
             activePlayers[1].setIsActive(true);
+            activePlayers[1].setIsFirst(true);
             TurnSystem.firstUIChange(activePlayers[1], activePlayers[0]);
             Debug.Log("player2 will start");
         }
@@ -89,80 +93,7 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        updateUIElements();
-        
-        //Is called every frame to check if any information about the player has changed.
-        //If information has changed, update the UI or end the game.
-        if (activePlayers[0].hasChanged)
-        {
-            Debug.Log("Update");
-            HPTEXTPlayer1.text = ("" + activePlayers[0].getPlayerHP());
-            ManaTEXTPlayer1.text = ("" + activePlayers[0].getAvailableMana() + " / " + activePlayers[0].getManaLimit());
-
-            if(activePlayers[0].getPlayerHP() <= 0)
-            {
-                player1win = true;
-            }
-            activePlayers[0].hasChanged = false;
-        }
-
-        if (activePlayers[1].hasChanged)
-        {
-            
-            HPTEXTPlayer2.text = ("" + activePlayers[1].getPlayerHP());
-            ManaTEXTPlayer2.text = ("" + activePlayers[1].getAvailableMana() + " / " + activePlayers[1].getManaLimit());
-
-            if (activePlayers[1].getPlayerHP() <= 0)
-            {
-                player2win = true;
-            }
-            activePlayers[1].hasChanged = false;
-        }
-
-        if (player1win)
-        {
-            VictoryScreen(false);
-        }
-        else if (player2win)
-        {
-            VictoryScreen(true);
-        }
-    }
-    
-    //Changes UI to show winner of the match, then resets all values and returns to menu
-    void VictoryScreen(bool arg)
-    {
-        Debug.Log(waitTimer);
-        waitTimer -= Time.deltaTime;
-        fullUI.SetActive(false);
-        endUI.SetActive(true);
-        if (arg == true)
-        {
-            
-            player1_victory.text = ("Victory! \n"+ ((int)waitTimer + 1));
-            player2_victory.text = ("Defeat!\n"+ ((int)waitTimer + 1));
-        }
-        else
-        {
-            player1_victory.text = ("Defeat!\n" + ((int)waitTimer + 1));
-            player2_victory.text = ("Victory!\n" + ((int)waitTimer + 1));
-        }
-        if(waitTimer <= 0)
-        {
-            activePlayers.Clear();
-            SceneManager.LoadScene(0);
-        }
-    }
-    //flips a coin on which players should start
-    public float coinflip()
-    {
-        //will return a value/float from 0 - 1.fs
-        return Random.Range(0f, 1f);
-
-    }
-    private void updateUIElements()
-    {   //Removes unwanted UI during different parts of rounds
-        if (activePlayers[1].getIsActive() == true)
+        if(activePlayers[1].getIsActive() == true)
         {
             coverUI1.SetActive(true);
             coverUI2.SetActive(false);
@@ -196,6 +127,73 @@ public class Game : MonoBehaviour
                 attackUI1.SetActive(false);
             }
         }
-    }
+        
+        //Is called every frame to check if any information about the player has changed.
+        //If information has changed, update the UI or end the game.
+        if (activePlayers[0].hasChanged)
+        {
+            Debug.Log("Update");
+            HPTEXTPlayer1.text = ("" + activePlayers[0].getPlayerHP());
+            ManaTEXTPlayer1.text = ("" + activePlayers[0].getAvailableMana() + " / " + activePlayers[0].getManaLimit());
 
+            if(activePlayers[0].getPlayerHP() <= 0)
+            {
+                player1win = true;
+            }
+            activePlayers[0].hasChanged = false;
+        }
+
+        if (activePlayers[1].hasChanged)
+        {
+            
+            HPTEXTPlayer2.text = ("" + activePlayers[1].getPlayerHP());
+            ManaTEXTPlayer2.text = ("" + activePlayers[1].getAvailableMana() + " / " + activePlayers[1].getManaLimit());
+
+            if (activePlayers[1].getPlayerHP() <= 0)
+            {
+                player2win = true;
+            }
+            activePlayers[1].hasChanged = false;
+        }
+
+        if (player1win)
+        {
+            VictoryScreen(false);
+        }else if (player2win)
+        {
+            VictoryScreen(true);
+        }
+
+    }
+    //Changes UI to show winner of the match, then resets all values and returns to menu
+    void VictoryScreen(bool arg)
+    {
+        waitTimer -= Time.deltaTime;
+        fullUI.SetActive(false);
+        endUI.SetActive(true);
+        if (arg == true)
+        {
+            
+            player1_victory.text = ("Victory! \n"+ ((int)waitTimer + 1));
+            player2_victory.text = ("Defeat!\n"+ ((int)waitTimer + 1));
+        }
+        else
+        {
+            player1_victory.text = ("Defeat!\n" + ((int)waitTimer + 1));
+            player2_victory.text = ("Victory!\n" + ((int)waitTimer + 1));
+        }
+        if(waitTimer <= 0)
+        {
+            activePlayers.Clear();
+            SceneManager.LoadScene(0);
+        }
+    }
+    //flips a coin on which players should start
+    public float coinflip()
+    {
+        //will return a value/float from 0 - 1.fs
+        return Random.Range(0f, 1f);
+
+    }
+   
 }

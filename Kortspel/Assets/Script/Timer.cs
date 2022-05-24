@@ -72,25 +72,43 @@ public class Timer : MonoBehaviour
             {
                 //If the timer has run out and the player is in Attack phase
                 //Reset hasAttacked, increase mana limit and set available mana
-                if (Game.activePlayers[0].getPlayerPhase().text == "Attack"){
+                if (Game.activePlayers[0].getPlayerPhase().text == "Attack")
+                {
                     Game.activePlayers[0].resetHasAttacked();
-                    Game.activePlayers[0].setManaLimit(Game.activePlayers[0].getManaLimit() + 1);
-                    Game.activePlayers[0].setAvailableMana(Game.activePlayers[0].getManaLimit());
+                    Game.activePlayers[0].removeSpellCard();
+                    if (!Game.activePlayers[0].getIsFirst())
+                    {
+                        Game.activePlayers[1].setManaLimit(Game.activePlayers[1].getManaLimit() + 1);
+                        Game.activePlayers[1].setAvailableMana(Game.activePlayers[1].getManaLimit());
+                    }
+                    else
+                    {
+                        Game.activePlayers[0].setIsFirst(false);
+                    }
                 }
                 TurnSystem.changeUI(Game.activePlayers[0], Game.activePlayers[1]);
-                
+
             }
             else if (Game.activePlayers[1].getIsActive())
             {
                 //If the timer has run out and the player is in Attack phase
                 //Reset hasAttacked, increase mana limit and set available mana
-                if (Game.activePlayers[1].getPlayerPhase().text == "Attack"){
+                if (Game.activePlayers[1].getPlayerPhase().text == "Attack")
+                {
                     Game.activePlayers[1].resetHasAttacked();
-                    Game.activePlayers[1].setManaLimit(Game.activePlayers[1].getManaLimit() + 1);
-                    Game.activePlayers[1].setAvailableMana(Game.activePlayers[1].getManaLimit());
+                    Game.activePlayers[1].removeSpellCard();
+                    if (!Game.activePlayers[1].getIsFirst())
+                    {
+                        Game.activePlayers[0].setManaLimit(Game.activePlayers[0].getManaLimit() + 1);
+                        Game.activePlayers[0].setAvailableMana(Game.activePlayers[0].getManaLimit());
+                    }
+                    else
+                    {
+                        Game.activePlayers[1].setIsFirst(false);
+                    }
                 }
                 TurnSystem.changeUI(Game.activePlayers[1], Game.activePlayers[0]);
-                
+
             }
             timeRemaining = resetvalue;
         }

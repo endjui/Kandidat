@@ -13,7 +13,8 @@
       "path": "Images/RoyalFlame",
       "triggers": "underHP,underHP",
       "keywords": "changePlayerHP,changePlayerMana",
-      "powers": "10,3"
+      "powers": "10,3",
+      "image": "Images/RoyalFlame/1_RoyalFlame"
     },
     {
       "name": "Flame Stag",
@@ -26,7 +27,8 @@
       "path": "Images/FlameStag",
       "triggers": "cardIsAttacked",
       "keywords": "changeOneCreatureHP",
-      "powers": "-2"
+      "powers": "-2",
+      "image": "Images/FlameStag/1_FlameStag"
     },
     {
       "name": "Flame Fawn",
@@ -39,7 +41,8 @@
       "path": "Images/FlameFawn",
       "triggers": "cardIsAttacked",
       "keywords": "changePlayerMana",
-      "powers": "1"
+      "powers": "1",
+      "image": "Images/FlameFawn/1_FlameFawn"
     },
     {
       "name": "Bonfire Frog",
@@ -52,7 +55,8 @@
       "path": "Images/BonfireFrog",
       "triggers": "",
       "keywords": "",
-      "powers": ""
+      "powers": "",
+      "image": "Images/BonfireFrog/1_BonfireFrog"
     },
     // --------------------- Fungi --------------------------
     {
@@ -66,7 +70,8 @@
       "path": "Images/Chanterelle",
       "triggers": "",
       "keywords": "",
-      "powers": ""
+      "powers": "",
+      "image": "Images/Chanterellle/1_Chanterellle"
     },
     {
       "name": "King Boletus",
@@ -79,7 +84,8 @@
       "path": "Images/KingBoletus",
       "triggers": "cardOnPlay",
       "keywords": "changeAllCreaturesAttack",
-      "powers": "3"
+      "powers": "3",
+      "image": "Images/KingBoletus/1_KingBoletus"
     },
     {
       "name": "Fly Agaric",
@@ -92,7 +98,8 @@
       "path": "Images/FlyAgaric",
       "triggers": "cardOnPlay",
       "keywords": "drawNewCards",
-      "powers": "1"
+      "powers": "1",
+      "image": "Images/FlyAgaric/1_FlyAgaric"
     },
     {
       "name": "Fly Amanita",
@@ -105,7 +112,8 @@
       "path": "Images/FlyAmanita",
       "triggers": "cardOnPlay",
       "keywords": "drawNewCards",
-      "powers": "1"
+      "powers": "1",
+      "image": "Images/FlyAmanita/1_FlyAmanita"
     },
     {
       "name": "Sneaky Bolete",
@@ -118,7 +126,8 @@
       "path": "Images/SneaktBolete",
       "triggers": "cardOnPlay",
       "keywords": "changeOneCreatureHP",
-      "powers": "2"
+      "powers": "2",
+      "image": "Images/SneakyBolete/1_SneakyBolete"
     },
     // --------------------- Vine --------------------------
     {
@@ -132,7 +141,8 @@
       "path": "Images/VineSlinger",
       "triggers": "cardIsAttacking,creatureKilled",
       "keywords": "changePlayerHP,drawNewsCards",
-      "powers": "-1,1"
+      "powers": "-1,1",
+      "image": "Images/VineSlinger/1_VineSlinger"
     },
     {
       "name": "Skeleton Puppet",
@@ -145,7 +155,8 @@
       "path": "Images/SkeletonPuppet",
       "triggers": "creatureKilled,creaturekilled",
       "keywords": "changeOneCreatureHP,changePlayerHP",
-      "powers": "1,1"
+      "powers": "1,1",
+      "image": "Images/SkeletonPuppet/1_SkeletonPuppet"
     },
     {
       "name": "Trap Lurkers",
@@ -156,9 +167,10 @@
       "hp": 6,
       "description": "All vine creatures get 2 extra attack power",
       "path": "Images/TrapLurkers",
-      "triggers": "cardOnplay",
+      "triggers": "cardOnPlay",
       "keywords": "changeAllTribeAttack",
-      "powers": "2"
+      "powers": "2",
+      "image": "Images/TrapLurkers/1_TrapLurkers"
     },
     {
       "name": "Vine Sprout",
@@ -171,7 +183,8 @@
       "path": "Images/VineSprout",
       "triggers": "",
       "keywords": "",
-      "powers": ""
+      "powers": "",
+      "image": "Images/VineSprout/1_VineSprout"
     }, // --------------------- Pixel --------------------------
     {
       "name": "Stump Boxer",
@@ -184,7 +197,8 @@
       "path": "Images/StumpBoxer",
       "triggers": "cardIsAttacked",
       "keywords": "changeThisCreatureAttack",
-      "powers": "1"
+      "powers": "1",
+      "image": "Images/StumpBoxer/1_StumpBoxer"
     },
     {
       "name": "Explosive Ant",
@@ -197,7 +211,8 @@
       "path": "Images/ExplosiveAnt",
       "triggers": "creatureKilled",
       "keywords": "changeAllOpponentCreaturesHP",
-      "powers": "-1"
+      "powers": "-1",
+      "image": "Images/ExplosiveAnt/1_ExplosiveAnt"
     },
     {
       "name": "General Earthworm",
@@ -208,9 +223,10 @@
       "hp": 2,
       "description": "General Earthworm gains 1 attack for eery Pixel card on the field.",
       "path": "Images/GeneralEarthworm",
-      "triggers": "onPlay",
+      "triggers": "cardOnPlay",
       "keywords": "changeThisCreatureAttackByTribe",
-      "powers": "-99"
+      "powers": "-99",
+      "image": "Images/GeneralEarthworm/1_GeneralEarthworm"
     },
     {
       "name": "Shield Monolith",
@@ -221,9 +237,10 @@
       "hp": 6,
       "description": "When Shield Monolith is summoned, grant all allies on the field 2 extra HP",
       "path": "Images/ShieldMonolith",
-      "triggers": "onPlay",
+      "triggers": "cardOnPlay",
       "keywords": "changeAllCreaturesHP",
-      "powers": "2"
+      "powers": "2",
+      "image": "Images/ShieldMonolith/1_ShieldMonolith"
     },
     // --------------------- Bird --------------------------
     {
@@ -237,7 +254,8 @@
       "path": "Images/BlackbirdKnight",
       "triggers": "creatureKilled",
       "keywords": "changeAllTribeAttack",
-      "powers": "1"
+      "powers": "1",
+      "image": "Images/BlackbirdKnight/1_BlackbirdKnight"
     },
     {
       "name": "Parrot Shaman",
@@ -250,7 +268,8 @@
       "path": "Images/ParrotShaman",
       "triggers": "cardOnPlay, cardOnPlay",
       "keywords": "changeThisCreatureHP,changeThisCreatureAttack",
-      "powers": "-99,-99"
+      "powers": "-99,-99",
+      "image": "Images/ParrotShaman/1_ParrotShaman"
     },
     {
       "name": "Owl Hunter",
@@ -263,7 +282,8 @@
       "path": "Images/OwlHunter",
       "triggers": "cardOnPlay",
       "keywords": "changeOneCreatureHP",
-      "powers": "-4"
+      "powers": "-4",
+      "image": "Images/OwlHunter/1_OwlHunter"
     },
     {
       "name": "Sagittarius",
@@ -276,7 +296,8 @@
       "path": "Images/Sagittarius",
       "triggers": "cardIsAttacked",
       "keywords": "changeOneOpponentCreatureAttack",
-      "powers": "-1"
+      "powers": "-1",
+      "image": "Images/Sagittarius/1_Sagittarius"
     },
     {
       "name": "Bearded Vulture",
@@ -289,7 +310,8 @@
       "path": "Images/BeardedVulture",
       "triggers": "whenCardIsAttacked",
       "keywords": "changeThisCreatureHP",
-      "powers": "-99"
+      "powers": "-99",
+      "image": "Images/BeardedVulture/1_BeardedVulture"
     },
     // --------------------- Stick --------------------------
     {
@@ -303,7 +325,8 @@
       "path": "Images/StickKing",
       "triggers": "cardOnPlay",
       "keywords": "changeAllOpponentCreaturesHP",
-      "powers": "-1"
+      "powers": "-1",
+      "image": "Images/StickKing/1_StickKing"
     },
     {
       "name": "Merlin Stick",
@@ -316,7 +339,8 @@
       "path": "Images/MerlinStick",
       "triggers": "cardOnPlay",
       "keywords": "changePlayerMana",
-      "powers": "2"
+      "powers": "2",
+      "image": "Images/MerlinStick/1_MerlinStick"
     },
     {
       "name": "Robin Stick",
@@ -329,7 +353,8 @@
       "path": "Images/RobinStick",
       "triggers": "cardOnPlay",
       "keywords": "stealCards",
-      "powers": "1"
+      "powers": "1",
+      "image": "Images/RobinStick/1_RobinStick"
     },
     {
       "name": "Arthur Stick",
@@ -342,7 +367,8 @@
       "path": "Images/ArthurStick",
       "triggers": "cardOnPlay",
       "keywords": "changeOneOpponentCreatureAttack",
-      "powers": "-1"
+      "powers": "-1",
+      "image": "Images/ArthurStick/1_ArthurStick"
     },
     // ------------------------- Spell cards ---------------------------------
     // --------------------- Flame --------------------------
@@ -351,33 +377,42 @@
       "type": "spell",
       "tribe": "Flame",
       "mana": 3,
+      "attack": 0,
+      "hp": 0,
       "description": "All oponents creatures takes 2 damage",
       "path": "Images/Wildfire",
       "triggers": "cardOnPlay",
       "keywords": "changeAllCreaturesHP",
-      "powers": "-2"
+      "powers": "-2",
+      "image": "Images/Wildfire/1_Wildfire"
     },
     {
       "name": "Flame Of Life",
       "type": "spell",
       "tribe": "Flame",
       "mana": 3,
+      "attack": 0,
+      "hp": 0,
       "description": "Player regains 5 HP",
       "path": "Images/FlameOfLife",
       "triggers": "cardOnPlay",
       "keywords": "changePlayerHP",
-      "powers": "5"
+      "powers": "5",
+      "image": "Images/FlameOfLife/1_FlameOfLife"
     },
     {
       "name": "Spark Of The Future",
       "type": "spell",
       "tribe": "Flame",
       "mana": 1,
+      "attack": 0,
+      "hp": 0,
       "description": "Look at the top 3 cards of the draw pile then put them back in the same order",
       "path": "Images/SparkOfTheFuture",
       "triggers": "cardOnPlay",
       "keywords": "scry",
-      "powers": "-2"
+      "powers": "-2",
+      "image": "Images/SparkOfTheFuture/1_SparkOfTheFuture"
     },
     // --------------------- Flame --------------------------
     {
@@ -385,22 +420,28 @@
       "type": "spell",
       "tribe": "Fungi",
       "mana": 3,
+      "attack": 0,
+      "hp": 0,
       "description": "Give all your creatures 3 extra HP",
       "path": "Images/HealingRain",
       "triggers": "cardOnPlay",
       "keywords": "changeAllCreaturesDefense",
-      "powers": "3"
+      "powers": "3",
+      "image": "Images/HealingRain/1_HealingRain"
     },
     {
       "name": "Magic Mushrooms",
       "type": "spell",
       "tribe": "Fungi",
       "mana": 4,
+      "attack": 0,
+      "hp": 0,
       "description": "Gain 1 mana and remove 1 mana from your opponent",
       "path": "Images/MagicMushrooms",
       "triggers": "cardOnPlay,cardOnPlay",
       "keywords": "changePlayerMana,changeOpponentMana",
-      "powers": "1,-1"
+      "powers": "1,-1",
+      "image": "Images/MagicMushrooms/1_MagicMushrooms"
     },
     // --------------------- Vine --------------------------
     {
@@ -408,33 +449,42 @@
       "type": "spell",
       "tribe": "Vine",
       "mana": 2,
+      "attack": 0,
+      "hp": 0,
       "description": "Deal 1 damage to all enemy creatures.",
       "path": "Images/Entangle",
-      "triggers": "onPlay",
+      "triggers": "cardOnPlay",
       "keywords": "changeAllCreaturesHP",
-      "powers": "-1"
+      "powers": "-1",
+      "image": "Images/Entangle/1_Entangle"
     },
     {
       "name": "Vine Wall",
       "type": "spell",
       "tribe": "Vine",
       "mana": 2,
+      "attack": 0,
+      "hp": 0,
       "description": "Give one of your creatures 4 extra HP.",
       "path": "Images/VineWall",
-      "triggers": "onPlay",
+      "triggers": "cardOnPlay",
       "keywords": "changeOneCreatureHP",
-      "powers": "4"
+      "powers": "4",
+      "image": "Images/VineWall/1_VineWall"
     },
     {
       "name": "Energy Drain",
       "type": "spell",
       "tribe": "Vine",
       "mana": 5,
+      "attack": 0,
+      "hp": 0,
       "description": "Deal 5 damage to your opponent land heal 5 HP in return.",
       "path": "Images/EnergyDrain",
-      "triggers": "onPlay,onPlay",
+      "triggers": "cardOnPlay,cardOnPlay",
       "keywords": "changePlayerHP,changeOpponentHP",
-      "powers": "5,-5"
+      "powers": "5,-5",
+      "image": "Images/EnergyDrain/1_EnergyDrain"
     },
     // --------------------- Pixel --------------------------
     {
@@ -442,22 +492,28 @@
       "type": "spell",
       "tribe": "Pixel",
       "mana": 4,
+      "attack": 0,
+      "hp": 0,
       "description": "When played, all enenmy creatures ger -2 attack and -1 HP.",
       "path": "Images/Pixilate",
-      "triggers": "onPlay,onPlay",
+      "triggers": "cardOnPlay,cardOnPlay",
       "keywords": "changeAllOpponentCreaturesAttack,changeAllOpponentCreaturesHP",
-      "powers": "-2,-1"
+      "powers": "-2,-1",
+      "image": "Images/Pixilate/1_Pixilate"
     },
     {
       "name": "Life Crystal",
       "type": "spell",
       "tribe": "Pixel",
       "mana": -99,
+      "attack": 0,
+      "hp": 0,
       "description": "When played, spend all mana to add HP equal to the amount of remaining mana you have.",
       "path": "Images/LifeCrystal",
-      "triggers": "onPlay",
+      "triggers": "cardOnPlay",
       "keywords": "changePlayerHP",
-      "powers": "-99"
+      "powers": "-99",
+      "image": "Images/LifeCrystal/1_LifeCrystal"
     },
     // --------------------- Bird --------------------------
     {
@@ -465,22 +521,28 @@
       "type": "spell",
       "tribe": "Bird",
       "mana": 4,
+      "attack": 0,
+      "hp": 0,
       "description": "Opponent cannot attack next turn.",
       "path": "Images/NightingalesSong",
-      "triggers": "onPlay",
+      "triggers": "cardOnPlay",
       "keywords": "opponentCantAttack",
-      "powers": "1"
+      "powers": "1",
+      "image": "Images/NightingalesSong'/1_NightingalesSong"
     },
     {
       "name": "Hatching of Eggs",
       "type": "spell",
       "tribe": "Bird",
       "mana": 2,
+      "attack": 0,
+      "hp": 0,
       "description": "Draw 2 cards.",
       "path": "Images/HatchingOfEggs",
-      "triggers": "onPlay",
+      "triggers": "cardOnPlay",
       "keywords": "drawNewCards",
-      "powers": "2"
+      "powers": "2",
+      "image": "Images/HatchingOfEggs/1_HatchingOfEggs"
     },
     // --------------------- Bird --------------------------
     {
@@ -488,22 +550,28 @@
       "type": "spell",
       "tribe": "Stick",
       "mana": 2,
+      "attack": 0,
+      "hp": 0,
       "description": "Deal 3 damage to the opponents HP.",
       "path": "Images/RandomFlyingArrow",
-      "triggers": "onPlay",
+      "triggers": "cardOnPlay",
       "keywords": "changeOpponentHP",
-      "powers": "-4"
+      "powers": "-3",
+      "image": "Images/RandomFlyingArrow/1_RandomFlyingArrow"
     },
     {
       "name": "Just A Heart",
       "type": "spell",
       "tribe": "Stick",
       "mana": 2,
+      "attack": 0,
+      "hp": 0,
       "description": "Heal all friendly creatures +2 HP.",
       "path": "Images/JustAHeart",
-      "triggers": "onPlay",
+      "triggers": "cardOnPlay",
       "keywords": "changeAllCreaturesHP",
-      "powers": "2"
+      "powers": "2",
+      "image": "Images/JustAHeart/1_JustAHeart"
     }
   ]
 }

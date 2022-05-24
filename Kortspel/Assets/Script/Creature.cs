@@ -12,6 +12,7 @@ public class Creature : MonoBehaviour
     public int mana = 0;
     public int zone = 0;
     public bool hasAttacked = false;
+    public Sprite artworkSprite;
     public Card creatureCard;
 
     //UI Text for the Creature
@@ -21,6 +22,7 @@ public class Creature : MonoBehaviour
     public Text NameTEXT;
     public Text DescriptionTEXT;
     public Text ManaTEXT;
+    public Image artworkImage;
 
     //Set card variables with the input 
     //argument card
@@ -34,6 +36,7 @@ public class Creature : MonoBehaviour
         description = card.getDescription();
         mana = card.getCardMana();
         hasAttacked = false;
+        artworkSprite = card.getArtworkSprite();
         creatureCard = card;
         setCardVisuals();
     }
@@ -41,13 +44,13 @@ public class Creature : MonoBehaviour
     //Set the UI visuals on the card to match the variables
     public void setCardVisuals()
     {
-
         HPTEXT.text = "" + hp;
         AttackTEXT.text = "" + attack;
         TribeTEXT.text = "" + tribe;
         NameTEXT.text = "" + name;
         DescriptionTEXT.text = "" + description;
         ManaTEXT.text = "" + mana;
+        artworkImage.sprite = artworkSprite;
     }
 
     //Get the name of the creature
@@ -67,7 +70,6 @@ public class Creature : MonoBehaviour
 
     //Get the creatures description
     public string getDescription() { return description; }
-
     public Card getCard()
     {
         //Get information from the database about the specific card.
@@ -112,6 +114,4 @@ public class Creature : MonoBehaviour
         }
         else hasAttacked = true;
     }
-
-
 }

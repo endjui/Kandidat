@@ -34,11 +34,20 @@ public class TurnSystem : MonoBehaviour
 
             //If the player is in Attack phase end their round
             //Reset monsters attack bool, increase mana limit and set available mana.
+            //increase mana for opponent for visuals, nice
             if (Game.activePlayers[0].getPlayerPhase().text == "Attack")
             {
                 Game.activePlayers[0].resetHasAttacked();
-                Game.activePlayers[0].setManaLimit(Game.activePlayers[0].getManaLimit() + 1);
-                Game.activePlayers[0].setAvailableMana(Game.activePlayers[0].getManaLimit());
+                Game.activePlayers[0].removeSpellCard();
+                if (!Game.activePlayers[0].getIsFirst())
+                {
+                    Game.activePlayers[1].setManaLimit(Game.activePlayers[1].getManaLimit() + 1);
+                    Game.activePlayers[1].setAvailableMana(Game.activePlayers[1].getManaLimit());
+                }
+                else
+                {
+                    Game.activePlayers[0].setIsFirst(false);
+                }
             }
             changeUI(Game.activePlayers[0], Game.activePlayers[1]);
         }
@@ -54,10 +63,20 @@ public class TurnSystem : MonoBehaviour
 
             //If the player is in Attack phase end their round
             //Reset monsters attack bool, increase mana limit and set available mana.
-            if (Game.activePlayers[1].getPlayerPhase().text == "Attack"){
+            //increase mana for opponent for visuals, nice
+            if (Game.activePlayers[1].getPlayerPhase().text == "Attack")
+            {
                 Game.activePlayers[1].resetHasAttacked();
-                Game.activePlayers[1].setManaLimit(Game.activePlayers[1].getManaLimit() + 1);
-                Game.activePlayers[1].setAvailableMana(Game.activePlayers[1].getManaLimit());
+                Game.activePlayers[1].removeSpellCard();
+                if (!Game.activePlayers[1].getIsFirst())
+                {
+                    Game.activePlayers[0].setManaLimit(Game.activePlayers[0].getManaLimit() + 1);
+                    Game.activePlayers[0].setAvailableMana(Game.activePlayers[0].getManaLimit());
+                }
+                else
+                {
+                    Game.activePlayers[1].setIsFirst(false);
+                }
             }
             changeUI(Game.activePlayers[1], Game.activePlayers[0]);
         }

@@ -9,14 +9,25 @@ public class SpawnCard : MonoBehaviour
     //UI Button to scan/spawn monsters
     public Button scanButton;
 
-    //The creaturePrefab to spawn
+    //The cre   aturePrefab to spawn
     public GameObject creaturePrefab;
 
     //Variable for the creature class
     public Creature myCreature;
 
+    //The spellPrefab to spawn
+    public GameObject spellPrefab;
+
+    //Variable for the spell class
+    public Spell mySpell;
+
     //Max zones available for both players
+
     const int maxZones = 5;
+
+    //Zones for spells
+    public GameObject spellZoneP1;
+    public GameObject spellZoneP2;
 
     //Arrays of gameobjects containing the position/transform for the
     //zones for player 1 and player2.
@@ -77,10 +88,10 @@ public class SpawnCard : MonoBehaviour
             // Check if Player 1 is in Attack phase, if not, let the player scan a card
             if (Game.activePlayers[0].getPlayerPhase().text != "Attack")
             {
-                    
-                    //Card cardToBeSpawned = matchCard(scanner.matchImage(webCam, cardsInJson.cardList));
-                    Card cardToBeSpawned = matchCard("Images/RoyalFlame"); //testrad, kommentera denna och avkommentera ovan
-                
+
+                //Card cardToBeSpawned = matchCard(scanner.matchImage(webCam, cardsInJson.cardList));
+                Card cardToBeSpawned = matchCard("Images/RandomFlyingArrow");
+
                 // Check if there is available mana
                 if (cardToBeSpawned.getCardHP() != -1 && (Game.activePlayers[0].getAvailableMana() - cardToBeSpawned.getCardMana()) >= 0)
                 {
@@ -96,7 +107,7 @@ public class SpawnCard : MonoBehaviour
                         }
                     }
                     //Spawns the card being scanned if the player has enough avilable Mana and there are available zones
-                    spawnCard(cardToBeSpawned, Game.activePlayers[0], zonesP1);
+                    spawnCard(cardToBeSpawned, Game.activePlayers[0], zonesP1, spellZoneP1);
 
                     // Loop through opponents cards
                     for (int i = 0; i < Game.activePlayers[1].getCards().Count; i++)
@@ -139,8 +150,7 @@ public class SpawnCard : MonoBehaviour
             if (Game.activePlayers[1].getPlayerPhase().text != "Attack")
             {
                 //Card cardToBeSpawned = matchCard(scanner.matchImage(webCam, cardsInJson.cardList));
-                Card cardToBeSpawned = matchCard("Images/RoyalFlame");//testrad, kommentera denna och avkommentera ovan
-                
+                Card cardToBeSpawned = matchCard("Images/RandomFlyingArrow");
 
                 // Check if there is available mana
                 if (cardToBeSpawned.getCardHP() != -1 && (Game.activePlayers[1].getAvailableMana() - cardToBeSpawned.getCardMana()) >= 0)
@@ -157,8 +167,8 @@ public class SpawnCard : MonoBehaviour
                         }
                     }
                     //Spawns the card being scanned if the player has enough avilable Mana and there are available zones
-                    spawnCard(cardToBeSpawned, Game.activePlayers[1], zonesP2);
-
+                    spawnCard(cardToBeSpawned, Game.activePlayers[1],zonesP2 ,spellZoneP2);
+                    
                     // Loop through opponents cards
                     for (int i = 0; i < Game.activePlayers[0].getCards().Count; i++)
                     {
@@ -222,15 +232,14 @@ public class SpawnCard : MonoBehaviour
                                      card.getPath(),
                                      card.getTriggers(),
                                      card.getKeywords(),
-                                     card.getPowers());
+                                     card.getPowers(),
+                                     card.getImage());
             }
         }
         //Card was not found
-        if(foundCard.getCardHP() == -1)
+        if (foundCard.getCardHP() == -1)
         {
-
             Debug.Log("Card was not found");
-
         }
         return foundCard;
     }
@@ -238,11 +247,33 @@ public class SpawnCard : MonoBehaviour
     //Spawns the card "spawn" for Player "P" in available zone
     //If no zone is avaialble no card will spawn
     //If input argument spawn.getHp() = -1, no card will be spawned
-    public void spawnCard(Card spawn, Player p, GameObject[] zones)
+    public void spawnCard(Card spawn, Player p, GameObject[] zones, GameObject spellZone)
     {
         //Check if conditions are met to spawn the card
         if (spawn.getCardHP() != -1 && (p.getAvailableMana() - spawn.getCardMana()) >= 0)
         {
+            if (spawn.getType() == "spell")
+            {
+                if(p.spellCard == null){ 
+                Debug.Log("Playing spellcard.");
+
+                GameObject instantiatedSpell = Instantiate(spellPrefab, spellZone.transform.position, spellZone.transform.rotation, spellZone.transform) as GameObject;
+                instantiatedSpell.name = spawn.getCardName();
+
+                mySpell = instantiatedSpell.GetComponent<Spell>();
+
+                mySpell.setCardInformation(spawn);
+
+                p.setAvailableMana(p.getAvailableMana() - mySpell.getSpellMana());
+
+                p.spellCard = instantiatedSpell;
+                }
+                else
+                {
+                    Debug.Log("Player already cast a spell this round..");
+                }
+        }
+
             int zone = p.getAvailableZone();
             if (zone != -1)
             {
@@ -270,7 +301,6 @@ public class SpawnCard : MonoBehaviour
                     //the zone the card was spawned in
                     p.playerCards[zone] = instantiatedCreature;
                 }
-                else { Debug.Log("Card to spawn was not of type Creature"); }
             }
             else
             {

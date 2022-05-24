@@ -18,7 +18,6 @@ public class Attack : MonoBehaviour
         //Initialize the button
         Button atkbtn = attackButton.GetComponent<Button>();
         atkbtn.onClick.AddListener(TaskOnClick);
-        
     }
 
     //Attack button press
@@ -48,7 +47,7 @@ public class Attack : MonoBehaviour
             int targetZone = GetZone(current);
 
             //Check if the zone is != -1 and the player is in attack phase
-            if (targetZone != -1 && current.getPlayerPhase().text == "Attack")
+            if (targetZone != -1 && current.getPlayerPhase().text == "Attack" && !current.getIsFirst())
             {
                 //AttackCreature and remove their creatures if their HP 0 =<
                 AttackCreature(current, opponent, targetZone);
@@ -114,7 +113,7 @@ public class Attack : MonoBehaviour
             //Both creatures take damage
             target.setCreatureHP(target.getCreatureHP() - attacker.getAttack());
             attacker.setCreatureHP(attacker.getCreatureHP() - target.getAttack());
-
+            
             // Trigger
             // Check if the opponent creature has the cardIsAttacked trigger - Might be a bug if creature is "dead" and then increase HP
             foreach (Ability a in target.getCard().getAbilities())

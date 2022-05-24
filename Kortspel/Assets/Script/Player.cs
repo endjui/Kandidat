@@ -13,11 +13,17 @@ public class Player : MonoBehaviour
     //A list contining all of the players cards.
     public List<GameObject> playerCards = new List<GameObject>();
 
+    //GameObject for spellcard
+    public GameObject spellCard;
+
     //Players HP
     int hp;
 
     //Boolean that states if it's the players turn or not
     bool isActive;
+
+    //If the player starts
+    private bool isFirst = false;
 
     //The maximum mana a player can spend per round.
     //This is increamented after everyround.
@@ -64,6 +70,8 @@ public class Player : MonoBehaviour
         //Every gamobject is set to null
         GameObject dummyObject = null;
 
+        spellCard = dummyObject;
+
         for (int counter = 0; counter < maxCards; counter++)
         {
             playerCards.Add(dummyObject);
@@ -81,7 +89,9 @@ public class Player : MonoBehaviour
     public GameObject getCard(int i) { return playerCards[i]; }
 
     //set players isActive variable
-    public void setIsActive(bool arg) { isActive = arg; }
+    public void setIsActive(bool arg) { 
+        isActive = arg; 
+    }
 
     //Set the players current HP
     //set hasChanged = true,  to update UI
@@ -113,8 +123,10 @@ public class Player : MonoBehaviour
     //set hasChanged = true,  to update UI
     public void setAvailableMana(int arg)
     {
-        availableMana = arg;
-        hasChanged = true;
+        
+            availableMana = arg;
+            hasChanged = true;
+        
     }
 
     //Get the players availableMana
@@ -133,6 +145,12 @@ public class Player : MonoBehaviour
         }
     
     }
+
+    //Set the variable isFirst
+    public void setIsFirst(bool arg) { isFirst = arg; }
+
+    //Get the variable isFirst
+    public bool getIsFirst() { return isFirst; }
 
     //Get the players manaLimit
     public int getManaLimit() { return manaLimit; }
@@ -186,5 +204,15 @@ public class Player : MonoBehaviour
             }
         }
         Debug.Log("Reset all cards");
+    }
+
+    public void removeSpellCard(){
+        
+        if(spellCard != null)
+        {
+            Destroy(spellCard);
+            spellCard = null;
+            Debug.Log("SpellCard removed!");
+        }
     }
 }
